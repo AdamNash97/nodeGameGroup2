@@ -31,14 +31,10 @@ export class Wallet extends Item {
     }
     buy(price) {
         let newGold = this.gold - price;
-        if (newGold < 0) {
-            console.log('You do not have enough gold!');
-        }
-        else {
         this.gold = newGold;
-        }
     }
 };
+
 
 export function countMoney(obj) {
     let reply = `Your ${obj.name} contains `;

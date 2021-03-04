@@ -64,6 +64,7 @@ function shop() {
   console.log("Welcome to the shop");
   console.log("1: Buy");
   console.log("2: Sell");
+  console.log("3: Browse");
   console.log("0: Go back to village square");
   let shopPrompt = prompt("Pick a number");
   shopPrompt = Number(shopPrompt);
@@ -71,6 +72,7 @@ function shop() {
     locationChoice(0);
   }
   else if (shopPrompt == 1){
+    const browseItems = prompt("which item would you like to browse in detail?")
     displayItems();
     const itemBuying = prompt("What item do you want to buy? (Press 'x' to cancel)");
     if (itemBuying == 'x'){
@@ -78,22 +80,24 @@ function shop() {
     }
     else {
       shopInventory[Number(itemBuying)];
-      pouch.buy(shopInventory[itemBuying].value);
       if ((pouch.gold - shopInventory[itemBuying].value) < 0  ){
+        console.log("You are too poor!")
         shop();
       }
       else{
+        pouch.buy(shopInventory[itemBuying].value);
         playersInventory.push(shopInventory[itemBuying]);
         console.log("Your inventory now contains:");
         for (let i in playersInventory){
           console.log(playersInventory[i].name);
         };
+        await sleep(2000);
         shop();
-      }
-      
-    }
-  }
-}
+      };  
+    };
+  };
+
+};
 
 
 function casino() {
@@ -171,13 +175,14 @@ async function gameIntro() {
   // console.log('');
   // await sleep(2000);
   for (let i in playersInventory) {
-    console.log('You have: ' + playersInventory[i].name + 'in your inventory.')
+    console.log('You have: ' + playersInventory[i].name + ' in your inventory.')
   };
   console.log('The leather pouch contains ' + pouch.gold + ' gold.')
-  // await sleep(2000)
-  console.log('Carriage Driver: "Oh and one last thing. You can press ctrl-c to quit at anytime!"')
   await sleep(2000)
-  console.log('You\'re not sure what he\'s talking about but carry on into the town anyway')
+  console.log('Carriage Driver: "Oh and one last thing. If it all gets too much you can press ctrl-c to quit at anytime!"')
+  await sleep(2000)
+  console.log('You\'re not sure what he\'s talking about but carry on into the town anyway...')
+  await sleep(4000)
   locationChoice(0);
 }
 
