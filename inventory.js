@@ -61,23 +61,22 @@ export function examineItem(obj) {
     if ("damage" in obj) {
         console.log(`The ${obj.name} can cause ${obj.damage} points of damage.`);
     };
-    switch (obj.state) {
-        case 0:
-            console.log(`The ${obj.name} has been destroyed (or not appeared in the game yet).`);
-            break;
-        case 1:
-            console.log(`The ${obj.name} is somewhere in the game world, but you haven't found it, yet.`);
-            break;
-        case 2:
-            console.log(`You have handled (but are not carrying) the ${obj.name}.`);
-            break;
-        case 3:
-            console.log(`You are carrying the ${obj.name}.`);
-            break;
-        default:
-            console.log(`You have no idea what the state of the ${obj.name} is.`);
-    };
-    if ("gold" in obj) {
-        countMoney(obj);
-    };
+
+     switch (obj.state) {
+         case 0:
+             console.log(`The ${obj.name} has been destroyed (or not appeared in the game yet).`);
+             break;
+         case 1:
+             console.log(`The ${obj.name} is somewhere in the game world, but does not belong to you.`);
+             break;
+         case 2:
+             console.log(`You have handled (but are not carrying) the ${obj.name}.`);
+             break;
+         case 3:
+             console.log(`You are carrying the ${obj.name}.`);
+             break;
+         default:
+             console.log(`You have no idea what the state of the ${obj.name} is.`);
+     };
+
 };

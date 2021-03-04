@@ -19,6 +19,7 @@
   "homepage": "https://github.com/AdamNash97/nodeGameGroup2#readme",
   "dependencies": {
     "lodash": "^4.17.21",
+    "mathjs": "^9.2.0",
     "prompt-sync": "^4.2.0"
   },
   "devDependencies": {}
