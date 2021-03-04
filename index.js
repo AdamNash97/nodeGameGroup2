@@ -4,6 +4,7 @@ const prompt = promptSync({sigint: true});
 import * as inv from './inventory.js';
 import * as game from './minigames.js';
 import * as math from 'mathjs';
+import { template } from 'lodash';
 
 //Intro function
 function startGame() {
@@ -24,7 +25,8 @@ function locationChoice (locationIndex){
         2 : Tavern
         3 : Casino
         4 : Gallows
-        5 : Forest      */
+        5 : Forest
+        6 : Temple      */
     switch (Number(locationIndex)){
       case 0:
         villageSquare();
@@ -44,7 +46,9 @@ function locationChoice (locationIndex){
       case 5:
         forest();
         break;
-
+      case 6:
+        temple();
+        break;
     }
 }
 
@@ -57,7 +61,8 @@ function villageSquare() {
   console.log("3 : Casino");
   console.log("4 : Gallows");
   console.log("5 : Forest");
-  const villageSquarePrompt = prompt("Please pick a number (1-5) to travel to your destination...");
+  console.log("6 : Temple");
+  const villageSquarePrompt = prompt("Please pick a number (1-6) to travel to your destination...");
   locationChoice(villageSquarePrompt);
 }
 
@@ -159,6 +164,19 @@ function forest() {
   console.log("0: Go back to village square");
   const forestPrompt = prompt("Pick a number");
   if (forestPrompt == 0){
+    locationChoice(0);
+  };
+};
+
+function temple() {
+  console.log("")
+  console.log("Welcome to the temple");
+  console.log("In the centre there is a mysterious glowing orb on a pillar...")
+  console.log("What do you want to do?");
+  console.log("1: Touch the orb");
+  console.log("0: Go back to village square");
+  const templePrompt = prompt("Pick a number");
+  if (templePrompt == 0){
     locationChoice(0);
   };
 };
