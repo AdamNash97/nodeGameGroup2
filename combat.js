@@ -72,10 +72,11 @@ export function initiateCombat(player, monstersArray, playersInventory, pouch){
 }
 export function combat(player, selectedMonster, playersInventory, pouch) {
     console.log(`${selectedMonster.name} has ${selectedMonster.health} health`)
+    console.log(`You have ${player.health} health`)
     console.log('1: Attack');
     console.log('2: Use a potion');
     console.log('3: Flee');
-    let combatOption = prompt('Enter the number of the action you would like');
+    let combatOption = prompt('Enter the number of the action you would like: ');
     combatOption = Number(combatOption);
     if (combatOption == 1){
         for (let i in playersInventory){
@@ -83,11 +84,17 @@ export function combat(player, selectedMonster, playersInventory, pouch) {
                 console.log(`${i} :  ${playersInventory[i].name}, deals between 1 and ${playersInventory[i].damage} damage`);
             }
         }
-        const weaponchoice = prompt('Enter which weapon you would like to attack with')
-        player.Attack(selectedMonster, playersInventory[Number(weaponchoice)]);
-        console.log(`${selectedMonster.name} attacks you back!`)
-        selectedMonster.Attack(player)
-        healthCheck(selectedMonster, player, playersInventory, pouch)
+        const weaponchoice = prompt('Enter which weapon you would like to attack with: ')
+        if (weaponchoice.indexOf(playersInventory) == -1){
+            console.log('invalid input')
+            combat(player, selectedMonster, playersInventory, pouch);
+        }
+        else {
+            player.Attack(selectedMonster, playersInventory[Number(weaponchoice)]);
+            console.log(`${selectedMonster.name} attacks you back!`)
+            selectedMonster.Attack(player)
+            healthCheck(selectedMonster, player, playersInventory, pouch)
+        }
     }
     else if (combatOption == 2){
         //if (playersInventory.includes(inv.Consumable)){
@@ -107,12 +114,14 @@ export function combat(player, selectedMonster, playersInventory, pouch) {
 
     else if (combatOption == 3){
         player.Flee();
-        if(locationChoice.locationIndex == 5){
-            selectedMonster.Attack(player);
-            healthCheck(selectedMonster, player, playersInventory, pouch);
-        };
-    };
-};
+        selectedMonster.Attack(player);
+        healthCheck(selectedMonster, player, playersInventory, pouch);
+    
+    } else{
+    console.log('Invalid input, sorry.');
+    combat(player, selectedMonster, playersInventory, pouch)
+    }
+}
 export function healthCheck(selectedMonster, player, playersInventory, pouch){
 if (selectedMonster.health <= 0){
     console.log(`Congratulations, you have defeated ${selectedMonster.name}!`);

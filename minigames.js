@@ -3,10 +3,13 @@ import * as inv from './inventory.js';
 import promptSync from 'prompt-sync';
 const prompt = promptSync({sigint: true});
 
+
+// Roulette for casino
 export function roulette(pouch) {
     console.log("Welcome to roulette!");
     console.log("");
 
+    // Rules and play choice
     let ruleChoice = prompt("Would you like to hear the rules? (Y/N)")
     if (ruleChoice.toUpperCase() == "Y") {
         console.log("You can choose a number between 0 and 36, or odd or even.");
@@ -19,6 +22,8 @@ export function roulette(pouch) {
     } else {
         console.log("Alright, lets play!");
     }
+
+    //Bet and choice
     inv.countMoney(pouch);
     let bet = prompt('How much do you want to wager?')
     console.log("You've bet:" + bet)
@@ -32,6 +37,7 @@ export function roulette(pouch) {
     let odds = 0
     console.log("The result was: " + result);
 
+    //Win or lose
     if (choice.toUpperCase() == "ODD" && result != 0) {
         if (result % 2 == 1) {
             console.log("Nice. You win!");
@@ -99,7 +105,7 @@ export function blackjack(pouch){
     console.log("You've bet:" + bet)
     bet = Number(bet)
     pouch.changeGold(-bet)
-    
+
 
 
 

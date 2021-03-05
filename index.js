@@ -7,6 +7,8 @@ import * as math from 'mathjs';
 import * as com from './combat.js';
 
 
+
+// LOCATION CHANGER
 export function locationChoice (locationIndex){
     /* Location Indexes
         0 : Village Square
@@ -41,6 +43,7 @@ export function locationChoice (locationIndex){
     }
 }
 
+// VILLAGE SQUARE
 function villageSquare() {
   console.log("")
   console.log("Welcome to the village square! You see many interesting places around you...");
@@ -52,9 +55,16 @@ function villageSquare() {
   console.log("5 : Forest");
   console.log("6 : Temple");
   const villageSquarePrompt = prompt("Please pick a number (1-6) to travel to your destination...");
+  var locArr = ["1","2","3","4","5","6"];
+  if(locArr.includes(villageSquarePrompt)){
   locationChoice(villageSquarePrompt);
+  } else {
+    console.log("Invalid input, sorry.");
+    villageSquare();
+  }
 }
 
+// SHOP
 function shop() {
   console.log("")
   console.log("Welcome to the shop");
@@ -63,21 +73,20 @@ function shop() {
   console.log("0: Go back to village square");
   let shopPrompt = prompt("Pick a number");
   shopPrompt = Number(shopPrompt);
-  ///////////////////////////////////////////////////////////////////////
+  
   if (shopPrompt == 0){
     locationChoice(0);
   }
-  ///////////////////////////////////////////////////////////////////////
+  
   else if (shopPrompt == 1){
     displayItems(shopInventory);
     const browseOrBuy = prompt("Enter 1 to buy an item or Enter 2 to examine an item");
-    /////////////////////////////////////
     if(browseOrBuy == 1){
       const itemBuying = prompt("What item do you want to buy? (Press 'x' to cancel)");
       if (itemBuying == 'x'){
         shop();
       }
-      else {
+      else if (itemBuying.indexOf(shopInventory) != -1) {
         shopInventory[Number(itemBuying)];
         if ((pouch.gold - shopInventory[itemBuying].value) < 0 ){
         console.log("You are too poor!");
@@ -90,29 +99,49 @@ function shop() {
           for (let i in playersInventory){
           console.log(playersInventory[i].name);
           };
-          //await sleep(2000);
           shop();
-        };
-      }
+        }
+      } else{
+        console.log("Invalid input, sorry.\n");
+        shop();
+      };
     }
     else if(browseOrBuy == 2){
       const selectItemToBrowse = prompt("Give the number of the item you want described...");
-      inv.examineItem(shopInventory[Number(selectItemToBrowse)])
+      if(selectItemToBrowse.indexOf(shopInventory) != -1){
+        inv.examineItem(shopInventory[Number(selectItemToBrowse)])
+        shop();
+      } else{
+        console.log("Invalid input, sorry.\n");
+        shop();
+      };
+    } else{
+      console.log("Invalid input, sorry.\n");
+      shop();
+    }   
+  } else if (shopPrompt == 2){
+    displayItems(playersInventory);
+    const sellItem = prompt("what would you like to sell? (Press 'x' to cancel)");
+    if (sellItem == 'x'){
       shop();
     }
-  }
-  /////////////////////////////////////////////////////////////////////////
-  else if (shopPrompt == 2){
-    displayItems(playersInventory);
-    const sellItem = prompt("what would you like to sell?");
-    shopInventory.push(playersInventory[Number(sellItem)]);
-    console.log(`you have sold your ${playersInventory[Number(sellItem)].name} for ${playersInventory[Number(sellItem)].value} gold`)
-    pouch.changeGold(playersInventory[Number(sellItem)]);
+    else if (sellItem.indexOf(playersInventory) != -1){
+      console.log(`you have sold your ${playersInventory[Number(sellItem)].name} for ${playersInventory[Number(sellItem)].value} gold`)
+      pouch.changeGold(playersInventory[Number(sellItem)].value);
+      playersInventory.splice((playersInventory[Number(sellItem)]),1);
+      shop();
+    } else {
+      console.log("Invalid input, sorry.\n");
+      shop();
+    }
+  } else {
+    console.log("Invalid input, sorry.\n");
     shop();
   }
 }
 
 
+// CASINO
 function casino() {
   console.log("")
   console.log("Welcome to the casino");
@@ -132,9 +161,13 @@ function casino() {
   else if (casinoPrompt == 2){
     game.roulette(pouch)
     locationChoice(3);
+  } else {
+    console.log("Invalid input, sorry.");
+    casino();
   }
 }
 
+// GALLOWS
 function gallows() {
   console.log("")
   console.log("Welcome to the gallows");
@@ -144,9 +177,14 @@ function gallows() {
   const gallowsPrompt = prompt("Pick a number");
   if (gallowsPrompt == 0){
     locationChoice(0);
-  };
+  }
+  else {
+    console.log("Invalid input, sorry.");
+    gallows();
+  }
 };
 
+// TAVERN
 function tavern() {
   console.log("")
   console.log("Welcome to the tavern");
@@ -159,13 +197,20 @@ function tavern() {
     console.log('You get some booze and a nice hot meal');
     player.restoreHealth();
     console.log('You have been restored to full health.')
+    console.log(`You have ${player.health} health.`);
     locationChoice(0);
   }
   else if (tavernPrompt == 0){
     locationChoice(0);
-  };
-};
+  }
+  else {
+    console.log("Invalid input, sorry.");
+    tavern();
+  }
+}
 
+
+// TEMPLE
 function temple() {
   console.log("")
   console.log("Welcome to the temple");
@@ -183,8 +228,11 @@ function temple() {
     }else if (orbsTouched == 1){
         touchOrb2()
     }
-
-  };
+  }
+  else {
+    console.log("Invalid input, sorry.");
+    temple();
+  }
 };
 
 // Allows waiting between executing lines eg. building suspense in dialog
@@ -194,14 +242,25 @@ function sleep(ms) {
   });
 }
 
+
+// GAME INTRO
 async function gameIntro() {
-  console.log('You\'re in a daze, unsure of your surrounding... your head is ringing.');
+  console.log('You\'re in a daze, unsure of your surroundings... your head is ringing.');
+  console.log('');
+  await sleep(2000);
+  console.log('Your leg hurts like hell...');
+  console.log('');
+  await sleep(2000);
+  console.log('You look down and there is a BITE!');
+  console.log('');
+  await sleep(2000);
+  console.log('Carriage Driver: "Oh yeah... don\'t worry about that... it\'ll heal in no time!"');
   console.log('');
   await sleep(2000);
   console.log('Carriage Driver: "Alright.. this is where they paid me to drop you off"');
   console.log('');
   await sleep(2000);
-  console.log('You look around but don\'t recognise this town.');
+  console.log('Horrified, you look around but don\'t recognise this town.');
   console.log('');
   await sleep(2000);
   console.log('Carriage Driver: "Well, good luck out there ' + player.name + '."');
@@ -221,11 +280,11 @@ async function gameIntro() {
   };
   console.log('The leather pouch contains ' + pouch.gold + ' gold.')
   await sleep(2000);
-  console.log("")
+  console.log("");
   console.log('Carriage Driver: "Oh and one last thing. If it all gets too much you can press ctrl-c to quit at anytime!"')
   await sleep(2000);
-  console.log("")
-  console.log('You\'re not sure what he\'s talking about but carry on into the town anyway...')
+  console.log("");
+  console.log('You\'re not sure what he\'s talking about but carry on into the town anyway...');
   await sleep(4000);
   locationChoice(0);
 }
@@ -238,20 +297,20 @@ function displayItems(Inventory) {
 }
 
 //Pouch
-let pouch = new inv.Wallet ("leather pouch", 200, 3, 0);
+let pouch = new inv.Wallet ("leather pouch", 20, 3, 'DO NOT SELL');
 pouch.description = "The finest of cows sacrificed themselves for this pouch!";
 
 //Creating instances of the inventory objects in the gaming environment.
-let woodenStick = new inv.Weapon ("wooden stick", 1, 3, 0);
+let woodenStick = new inv.Weapon ("wooden stick", 1, 3, 1);
 let portableTrebuchet = new inv.Weapon ("pocket-sized trebuchet", 10, 1, 10);
 let ironSword = new inv.Weapon ("iron sword", 5, 1, 7);
 let poisonousJellyBean = new inv.Weapon ("poisonous jelly bean", 7, 1, 9);
 let shimmeringBlade = new inv.Weapon ("shimmering blade", 13, 1, 20);
 let gun = new inv.Weapon("a gun", 20, 1, 50);
 let healingPotion = new inv.Consumable ("health regeneration potion", 1, 5, 5);
-var existingItems = [woodenStick, pouch, portableTrebuchet, ironSword, poisonousJellyBean, shimmeringBlade, healingPotion.healthRegen, gun];
-woodenStick.description = "The trees were generous, this stick will mould you into a great warrior!";
+var existingItems = [woodenStick, pouch, portableTrebuchet, ironSword, poisonousJellyBean, shimmeringBlade, healingPotion, gun];
 
+woodenStick.description = "The trees were generous, this stick will mould you into a great warrior!";
 portableTrebuchet.description = "Take down the biggest of beasts with this little pocket-rocket!";
 ironSword.description = "Crafted by the best iron monger in the village!";
 poisonousJellyBean.description = "a lethal version of the children's favourite!";
@@ -272,6 +331,7 @@ for (let i of existingItems) {
 }
 
 
+// FOREST
 function forest() {
   console.log("")
   console.log("Welcome to the forest");
@@ -285,10 +345,13 @@ function forest() {
     console.log(player)
     com.initiateCombat(player, com.monstersArray, playersInventory, pouch);
     //console.log(playersHealthBar);
-
-  };
+  } else {
+    console.log("Invalid input, sorry.");
+    forest();
+  }
 };
 
+// TOUCH ORB
 async function touchOrb1(){
     console.log('Unknown voice: "HEY! WHAT DO YOU THINK YOU\'RE DOING!!!"');
     console.log('');
@@ -318,8 +381,9 @@ async function touchOrb1(){
     console.log('');
     await sleep(4000);
     locationChoice(0);
-  }
+}
 
+  // TOUCH ORB 2
 async function touchOrb2(){
   console.log('Robed man: "Oh. You\'re back...');
   console.log('');
@@ -350,6 +414,7 @@ async function touchOrb2(){
 
 }
 
+// WIN CONDITION
 async function winnerWinnerChickenDinner() {
   console.log('Robed man: "WAIT WHAT! How\'d someone like you actually get that kind of gold???')
   console.log('');
@@ -357,7 +422,7 @@ async function winnerWinnerChickenDinner() {
   console.log('Robed man: "Gods, they\'re not gonna be happy with me now..."')
   console.log('');
   await sleep(2000);
-  console.log('Robed man: "Oh well, a promise is a promise...')
+  console.log('Robed man: "Oh well, a promise is a promise..."')
   console.log('');
   await sleep(2000);
   console.log('Robed man: "Go on then, have at it."')
@@ -404,7 +469,7 @@ async function winnerWinnerChickenDinner() {
   await sleep(2000);
 }
 
-//Intro 
+//Start game
 let player = new com.Player('player', 20, 20)
 var orbsTouched = 0
 console.log('Welcome to Cannibal Retribution!')
@@ -416,9 +481,8 @@ if (wantToPlay.toLowerCase() == "y") {
   console.log('');
   gameIntro();
 }
-else {
+else if(wantToPlay.toLowerCase() == "n") {
    console.log("Okay, no worries!");
-}
-
-
-
+} else {
+  console.log("Invalid entry, sorry");
+} 
