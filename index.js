@@ -246,33 +246,33 @@ function sleep(ms) {
 
 // GAME INTRO
 async function gameIntro() {
-  console.log('You\'re in a daze, unsure of your surroundings... your head is ringing.');
-  console.log('');
-  await sleep(2000);
-  console.log('Your leg hurts like hell...');
-  console.log('');
-  await sleep(2000);
-  console.log('You look down and there is a BITE!');
-  console.log('');
-  await sleep(2000);
-  console.log('Carriage Driver: "Oh yeah... don\'t worry about that... it\'ll heal in no time!"');
-  console.log('');
-  await sleep(2000);
-  console.log('Carriage Driver: "Alright.. this is where they paid me to drop you off"');
-  console.log('');
-  await sleep(2000);
-  console.log('Horrified, you look around but don\'t recognise this town.');
-  console.log('');
-  await sleep(2000);
-  console.log('Carriage Driver: "Well, good luck out there ' + player.name + '."');
-  console.log('');
-  await sleep(2000);
-  console.log('You wonder if anyone in town might be able to help you...');
-  console.log('');
-  await sleep(2000);
-  console.log('You start stumbling towards the village square.');
-  console.log('');
-  await sleep(2000);
+  // console.log('You\'re in a daze, unsure of your surroundings... your head is ringing.');
+  // console.log('');
+  // await sleep(2000);
+  // console.log('Your leg hurts like hell...');
+  // console.log('');
+  // await sleep(2000);
+  // console.log('You look down and there is a BITE!');
+  // console.log('');
+  // await sleep(2000);
+  // console.log('Carriage Driver: "Oh yeah... don\'t worry about that... it\'ll heal in no time!"');
+  // console.log('');
+  // await sleep(2000);
+  // console.log('Carriage Driver: "Alright.. this is where they paid me to drop you off"');
+  // console.log('');
+  // await sleep(2000);
+  // console.log('Horrified, you look around but don\'t recognise this town.');
+  // console.log('');
+  // await sleep(2000);
+  // console.log('Carriage Driver: "Well, good luck out there ' + player.name + '."');
+  // console.log('');
+  // await sleep(2000);
+  // console.log('You wonder if anyone in town might be able to help you...');
+  // console.log('');
+  // await sleep(2000);
+  // console.log('You start stumbling towards the village square.');
+  // console.log('');
+  // await sleep(2000);
   console.log('Carriage Driver: "HEY!! Don\'t forget your things!"');
   console.log('');
   await sleep(2000);
@@ -339,7 +339,8 @@ function forest() {
   console.log("What do you want to do?");
   console.log("1: Fight a monster");
   console.log("0: Go back to village square");
-  const forestPrompt = prompt("Pick a number:");
+  let forestPrompt = prompt("Pick a number:");
+  forestPrompt = Number(forestPrompt);
   if (forestPrompt == 0){
     locationChoice(0);
   } else if (forestPrompt == 1){
@@ -468,6 +469,7 @@ async function winnerWinnerChickenDinner() {
   console.log('To be continued..?')
   console.log('');
   await sleep(2000);
+  locationChoice(0)
 }
 
 //Start game

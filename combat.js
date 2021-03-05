@@ -18,15 +18,6 @@ export class Player {
         this.health = this.maxHealth;
     }
 
-    Flee() {
-        let fleeProb = math.random()
-            if (fleeProb < 0.2){
-                console.log('You couldn\'t get away!')
-            } else{
-                console.log('Successfully fled!')
-                locationChoice(0);
-            }
-    }
     useItem(Consumable, playersInventory) {
         if (this.health == this.maxHealth){
             console.log('you are already full health! You have lost your potion due to stupidity.')
@@ -86,6 +77,7 @@ export function combat(player, selectedMonster, playersInventory, pouch) {
             }
         }
         const weaponchoice = prompt('Enter which weapon you would like to attack with: ')
+        console.log("")
         if (playersInventory.includes(playersInventory[Number(weaponchoice)]) && "damage" in playersInventory[Number(weaponchoice)]){
             player.Attack(selectedMonster, playersInventory[Number(weaponchoice)]);
             console.log(`${selectedMonster.name} attacks you back!`)
@@ -114,10 +106,15 @@ export function combat(player, selectedMonster, playersInventory, pouch) {
     }
 
     else if (combatOption == 3){
-        player.Flee();
-        selectedMonster.Attack(player);
-        healthCheck(selectedMonster, player, playersInventory, pouch);
-    
+        let fleeProb = math.random()
+             if (fleeProb < 0.2){
+                 console.log('You couldn\'t get away!')
+                 selectedMonster.Attack(player);
+                 healthCheck(selectedMonster, player, playersInventory, pouch);
+             } else{
+                 console.log('Successfully fled!')
+                locationChoice(0);
+                }    
     } else{
     console.log('Invalid input, sorry.');
     combat(player, selectedMonster, playersInventory, pouch)
@@ -125,6 +122,7 @@ export function combat(player, selectedMonster, playersInventory, pouch) {
 }
 export function healthCheck(selectedMonster, player, playersInventory, pouch){
 if (selectedMonster.health <= 0){
+    console.log("")
     console.log(`Congratulations, you have defeated ${selectedMonster.name}!`);
     pouch.changeGold(selectedMonster.value);
     console.log(`You gained ${selectedMonster.value} gold!`);
@@ -133,6 +131,7 @@ if (selectedMonster.health <= 0){
     locationChoice(0);
 }
  else if (player.health <= 0){
+    console.log("")
     console.log(`Damn, you're an awful warrior, maybe try flipping burgers instead!`);
     console.log(`As punishment you've lost half your gold, sorry!`);
     pouch.changeGold(-pouch.gold / 2);
