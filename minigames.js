@@ -29,7 +29,7 @@ export function roulette(pouch) {
     console.log("You've bet:" + bet)
     bet = Number(bet)
     pouch.changeGold(-bet)
-    let choice = prompt('What would you like to choose? (0-36 or ODD or EVEN)')
+    let choice = prompt('What would you like to choose? (0-36 or ODD or EVEN): ')
     console.log("You chose: " + choice);
 
     let result = math.randomInt(36);

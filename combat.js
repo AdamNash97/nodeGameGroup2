@@ -48,8 +48,9 @@ export class Player {
 }
 
 export class Monster {
-    constructor (health, attack, name, value) {
+    constructor (health, maxHealth, attack, name, value) {
         this.health = health;
+        this.maxHealth = maxHealth;
         this.attack = attack;
         this.name = name;
         this.value = value;
@@ -128,6 +129,7 @@ if (selectedMonster.health <= 0){
     pouch.changeGold(selectedMonster.value);
     console.log(`You gained ${selectedMonster.value} gold!`);
     inv.countMoney(pouch);
+    selectedMonster.health = selectedMonster.maxHealth
     locationChoice(0);
 }
  else if (player.health <= 0){
@@ -188,13 +190,13 @@ const playerHealthBar= new HealthBar('green',20);
 */
 //Creating instances of monsters to battle
 
-let mrBlobby = new Monster(10,7, 'Mr. Blobby', 10);
-let naughtySanta = new Monster(5,2, 'Naughty Santa', 5);
-let satanHimself = new Monster(666,10,'Satan Himself', 200);
-let regularPigeon = new Monster(10,50, 'a Pigeon', 100);
-let rabidSquirrel = new Monster(7, 10, 'Rabid Squirrel', 10)
-let zombie = new Monster(20, 3, 'Zombie', 10)
-let shiaLaBeouf = new Monster(15, 4, 'Shia La Beouf', 69)
+let mrBlobby = new Monster(10, 10, 7, 'Mr. Blobby', 10);
+let naughtySanta = new Monster(5, 5, 2, 'Naughty Santa', 5);
+let satanHimself = new Monster(666, 666, 10,'Satan Himself', 200);
+let regularPigeon = new Monster(10, 10, 50, 'a Pigeon', 100);
+let rabidSquirrel = new Monster(7, 7, 10, 'Rabid Squirrel', 10)
+let zombie = new Monster(20, 20, 3, 'Zombie', 10)
+let shiaLaBeouf = new Monster(15, 15, 4, 'Shia La Beouf', 69)
 
 mrBlobby.description = "a spotted beast so rare that he tickle you down to the ground.";
 naughtySanta.description = "an angry santa who fires elves at a rapid rate.";

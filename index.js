@@ -54,7 +54,7 @@ function villageSquare() {
   console.log("4 : Gallows");
   console.log("5 : Forest");
   console.log("6 : Temple");
-  const villageSquarePrompt = prompt("Please pick a number (1-6) to travel to your destination...");
+  const villageSquarePrompt = prompt("Please pick a number (1-6) to travel to your destination: ");
   var locArr = ["1","2","3","4","5","6"];
   if(locArr.includes(villageSquarePrompt)){
   locationChoice(villageSquarePrompt);
@@ -71,7 +71,7 @@ function shop() {
   console.log("1: Browse or Buy");
   console.log("2: Sell");
   console.log("0: Go back to village square");
-  let shopPrompt = prompt("Pick a number");
+  let shopPrompt = prompt("Pick a number: ");
   shopPrompt = Number(shopPrompt);
   
   if (shopPrompt == 0){
@@ -80,9 +80,10 @@ function shop() {
   
   else if (shopPrompt == 1){
     displayItems(shopInventory);
-    const browseOrBuy = prompt("Enter 1 to buy an item or Enter 2 to examine an item");
-    if(browseOrBuy == 1){
-      const itemBuying = prompt("What item do you want to buy? (Press 'x' to cancel)");
+    console.log("You have " + pouch.gold + " gold.")
+    const browseOrBuy = prompt("Enter 1 to buy an item or Enter 2 to examine an item: ");
+    if(browseOrBuy == 1){   
+      const itemBuying = prompt("What item do you want to buy? (Press 'x' to cancel): ");
       if (itemBuying == 'x'){
         shop();
       }
@@ -95,7 +96,7 @@ function shop() {
         else {
           pouch.changeGold(-shopInventory[itemBuying].value);
           playersInventory.push(shopInventory[itemBuying]);
-          console.log("Your inventory now contains:");
+          console.log("Your inventory now contains: ");
           for (let i in playersInventory){
           console.log(playersInventory[i].name);
           };
@@ -107,7 +108,7 @@ function shop() {
       };
     }
     else if(browseOrBuy == 2){
-      const selectItemToBrowse = prompt("Give the number of the item you want described...");
+      const selectItemToBrowse = prompt("Give the number of the item you want described: ");
       if(shopInventory.includes(shopInventory[selectItemToBrowse])){
         inv.examineItem(shopInventory[Number(selectItemToBrowse)])
         shop();
@@ -121,7 +122,7 @@ function shop() {
     }   
   } else if (shopPrompt == 2){
     displayItems(playersInventory);
-    const sellItem = prompt("what would you like to sell? (Press 'x' to cancel)");
+    const sellItem = prompt("what would you like to sell? (Press 'x' to cancel: )");
     if (sellItem == 'x'){
       shop();
     }
@@ -149,7 +150,7 @@ function casino() {
   console.log("1: Play Blackjack");
   console.log("2: Play Roulette")
   console.log("0: Go back to village square");
-  let casinoPrompt = prompt("Pick a number");
+  let casinoPrompt = prompt("Pick a number: ");
   casinoPrompt = Number(casinoPrompt)
   if (casinoPrompt == 0){
     locationChoice(0);
@@ -191,7 +192,7 @@ function tavern() {
   console.log("What do you want to do?");
   console.log("1: get booze (3 gold)");
   console.log("0: Go back to village square");
-  const tavernPrompt = prompt("Pick a number");
+  const tavernPrompt = prompt("Pick a number: ");
   if (tavernPrompt == 1){
     pouch.changeGold(-3)
     console.log('You get some booze and a nice hot meal');
@@ -218,7 +219,7 @@ function temple() {
   console.log("What do you want to do?");
   console.log("1: Touch the orb");
   console.log("0: Go back to village square");
-  const templePrompt = prompt("Pick a number");
+  const templePrompt = prompt("Pick a number: ");
   if (templePrompt == 0){
     locationChoice(0);
   }else if (templePrompt == 1){
@@ -374,7 +375,7 @@ async function touchOrb1(){
     console.log('Robed man: "FOR A PRICE!!! MWAHAHAHAHA *cough* *cough* excuse me..')
     console.log('');
     await sleep(2000);
-    console.log('Robed man: "Yes, uhhh 200 gold should do it..."')
+    console.log('Robed man: "Yes, uhhh 100 gold should do it..."')
     console.log('');
     await sleep(2000);
     console.log('You leave with more questions than answers... but perhaps you\'re on the right track')
@@ -393,7 +394,7 @@ async function touchOrb2(){
   await sleep(2000);
   let orbPrompt = prompt("Hand over gold? (Y/N)")
   if (orbPrompt.toUpperCase() == "Y"){
-    if (pouch.gold >= 200){
+    if (pouch.gold >= 100){
       winnerWinnerChickenDinner()
     }else{
       console.log('Robed man: "Do you think I am a fool? Fool.')
