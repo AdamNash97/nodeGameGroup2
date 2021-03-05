@@ -73,10 +73,10 @@ export function examineItem(obj) {
              console.log(`The ${obj.name} has been destroyed (or not appeared in the game yet).`);
              break;
          case 1:
-             console.log(`The ${obj.name} is somewhere in the game world, but does not belong to you.`);
+             console.log(`The ${obj.name} is in the store, but you don't own it yet.`);
              break;
          case 2:
-             console.log(`You have handled (but are not carrying) the ${obj.name}.`);
+             console.log(`You have handled (but are no longer carrying) the ${obj.name}.`);
              break;
          case 3:
              console.log(`You are carrying the ${obj.name}.`);
