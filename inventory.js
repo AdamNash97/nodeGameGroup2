@@ -26,10 +26,10 @@ export class Weapon extends Item {
 
 export class Consumable extends Item {
     constructor(name, state, value, healthRegen){
-        super(name, state, value)
-        this.healthRegen = healthRegen
+        super(name, state, value);
+        this.healthRegen = healthRegen;
     }
-}
+};
 export class Wallet extends Item {
     constructor(name, gold, state) {
         super(name, state);

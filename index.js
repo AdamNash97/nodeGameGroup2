@@ -121,8 +121,13 @@ function casino() {
   if (casinoPrompt == 0){
     locationChoice(0);
   }
+  else if (casinoPrompt == 1){
+    console.log("Sorry our tables are currently being repaired.")
+    locationChoice(3)
+  }
   else if (casinoPrompt == 2){
     game.roulette(pouch)
+    locationChoice(3);
   }
 }
 
@@ -220,7 +225,7 @@ let portableTrebuchet = new inv.Weapon ("pocket-sized trebuchet", 10, 1, 10);
 let ironSword = new inv.Weapon ("iron sword", 5, 1, 7);
 let poisonousJellyBean = new inv.Weapon ("poisonous jelly bean", 7, 1, 9);
 let shimmeringBlade = new inv.Weapon ("shimmering blade", 13, 1, 20);
-let healingPotion = new inv.Consumable ("health regeneration potion",1,5,5);
+let healingPotion = new inv.Consumable ("health regeneration potion", 1, 5, 5);
 var existingItems = [woodenStick, pouch, portableTrebuchet, ironSword, poisonousJellyBean, shimmeringBlade, healingPotion];
 
 woodenStick.description = "The trees were generous, this stick will mould you into a great warrior!";

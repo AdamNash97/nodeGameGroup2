@@ -1,5 +1,7 @@
 import * as math from 'mathjs';
 import * as inv from './inventory.js';
+import promptSync from 'prompt-sync';
+const prompt = promptSync({sigint: true});
 
 export function roulette(pouch) {
     console.log("Welcome to roulette!");
@@ -17,12 +19,13 @@ export function roulette(pouch) {
     } else {
         console.log("Alright, lets play!");
     }
+    inv.countMoney(pouch);
     let bet = prompt('How much do you want to wager?')
     console.log("You've bet:" + bet)
     bet = Number(bet)
+    pouch.changeGold(-bet)
     let choice = prompt('What would you like to choose? (0-36 or ODD or EVEN)')
     console.log("You chose: " + choice);
-    choice = Number(choice)
 
     let result = math.randomInt(36);
     let winner = false
@@ -60,10 +63,7 @@ export function roulette(pouch) {
     }
     if (winner == true){
         pouch.changeGold((bet*odds))
-    } else{
-        pouch.changeGold(-bet)
     }
-    locationChoice(3);
 };
 
 export function hangman() {
@@ -77,18 +77,7 @@ export function hangman() {
 
 
 
+export function blackjack(){
 
-
-
-
-
-
-
-
-
-
-
-
-////////////////////////////////////////////////
-//Blackjack
+}
 
