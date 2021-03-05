@@ -86,7 +86,7 @@ function shop() {
       if (itemBuying == 'x'){
         shop();
       }
-      else if (itemBuying.indexOf(shopInventory) != -1) {
+      else if (shopInventory.includes(shopInventory[itemBuying])) {
         shopInventory[Number(itemBuying)];
         if ((pouch.gold - shopInventory[itemBuying].value) < 0 ){
         console.log("You are too poor!");
@@ -108,7 +108,7 @@ function shop() {
     }
     else if(browseOrBuy == 2){
       const selectItemToBrowse = prompt("Give the number of the item you want described...");
-      if(selectItemToBrowse.indexOf(shopInventory) != -1){
+      if(shopInventory.includes(shopInventory[selectItemToBrowse])){
         inv.examineItem(shopInventory[Number(selectItemToBrowse)])
         shop();
       } else{
@@ -125,7 +125,7 @@ function shop() {
     if (sellItem == 'x'){
       shop();
     }
-    else if (sellItem.indexOf(playersInventory) != -1){
+    else if (playersInventory.includes(playersInventory[sellItem])){
       console.log(`you have sold your ${playersInventory[Number(sellItem)].name} for ${playersInventory[Number(sellItem)].value} gold`)
       pouch.changeGold(playersInventory[Number(sellItem)].value);
       playersInventory.splice((playersInventory[Number(sellItem)]),1);

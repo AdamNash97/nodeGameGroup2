@@ -85,15 +85,15 @@ export function combat(player, selectedMonster, playersInventory, pouch) {
             }
         }
         const weaponchoice = prompt('Enter which weapon you would like to attack with: ')
-        if (weaponchoice.indexOf(playersInventory) == -1){
-            console.log('invalid input')
-            combat(player, selectedMonster, playersInventory, pouch);
-        }
-        else {
+        if (playersInventory.includes(playersInventory[Number(weaponchoice)]) && "damage" in playersInventory[Number(weaponchoice)]){
             player.Attack(selectedMonster, playersInventory[Number(weaponchoice)]);
             console.log(`${selectedMonster.name} attacks you back!`)
             selectedMonster.Attack(player)
             healthCheck(selectedMonster, player, playersInventory, pouch)
+        }
+        else {
+            console.log('invalid input')
+            combat(player, selectedMonster, playersInventory, pouch);
         }
     }
     else if (combatOption == 2){
