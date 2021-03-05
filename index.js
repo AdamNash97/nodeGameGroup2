@@ -4,21 +4,10 @@ const prompt = promptSync({sigint: true});
 import * as inv from './inventory.js';
 import * as game from './minigames.js';
 import * as math from 'mathjs';
-import { template } from 'lodash';
+import * as com from './combat.js';
 
-//Intro function
-function startGame() {
-    console.log('Welcome to Cannibal Retribution!')
-    const wantToPlay = prompt("Do you want to play? (Y/N)");
-    if (wantToPlay.toLowerCase() == "y") {
-      gameIntro();
-    }
-    else {
-      console.log("Okay, no worries!");
-    }
-};
 
-function locationChoice (locationIndex){
+export function locationChoice (locationIndex){
     /* Location Indexes
         0 : Village Square
         1 : Shop
@@ -95,7 +84,7 @@ function shop() {
         shop();
         }
         else {
-          pouch.buy(shopInventory[itemBuying].value);
+          pouch.changeGold(-shopInventory[itemBuying].value);
           playersInventory.push(shopInventory[itemBuying]);
           console.log("Your inventory now contains:");
           for (let i in playersInventory){
@@ -125,10 +114,15 @@ function casino() {
   console.log("Welcome to the casino");
   console.log("What do you wanna do?");
   console.log("1: Play Blackjack");
+  console.log("2: Play Roulette")
   console.log("0: Go back to village square");
-  const casinoPrompt = prompt("Pick a number");
+  let casinoPrompt = prompt("Pick a number");
+  casinoPrompt = Number(casinoPrompt)
   if (casinoPrompt == 0){
     locationChoice(0);
+  }
+  else if (casinoPrompt == 2){
+    game.roulette(pouch)
   }
 }
 
@@ -156,18 +150,6 @@ function tavern() {
   };
 };
 
-function forest() {
-  console.log("")
-  console.log("Welcome to the forest");
-  console.log("What do you want to do?");
-  console.log("1: Fight a monster");
-  console.log("0: Go back to village square");
-  const forestPrompt = prompt("Pick a number");
-  if (forestPrompt == 0){
-    locationChoice(0);
-  };
-};
-
 function temple() {
   console.log("")
   console.log("Welcome to the temple");
@@ -189,34 +171,39 @@ function sleep(ms) {
 }
 
 async function gameIntro() {
-  console.log('You awaken feeling queezy in the back of a carriage... Your head ringing...');
+  console.log('You\'re in a daze, unsure of your surrounding... your head is ringing.');
   console.log('');
   await sleep(2000);
-  // console.log('Carriage Driver: "Alright.. this is where they paid me to drop you off"');
-  // console.log('');
-  // await sleep(2000);
-  // console.log('You look around but don\'t recognise this town.');
-  // console.log('');
-  // await sleep(2000);
-  // console.log('I wonder if anyone in town might be able to help you...');
-  // console.log('');
-  // await sleep(2000);
-  // console.log('You start stumbling towards the village sqaure');
-  // console.log('');
-  // await sleep(2000);
-  // console.log('Carriage Driver: "HEY!! Don\'t forget your things!"');
-  // console.log('');
-  // await sleep(2000);
+  console.log('Carriage Driver: "Alright.. this is where they paid me to drop you off"');
+  console.log('');
+  await sleep(2000);
+  console.log('You look around but don\'t recognise this town.');
+  console.log('');
+  await sleep(2000);
+  console.log('Carriage Driver: "Well, good luck out there ' + player.name + '.');
+  console.log('');
+  await sleep(2000);
+  console.log('You wonder if anyone in town might be able to help you...');
+  console.log('');
+  await sleep(2000);
+  console.log('You start stumbling towards the village square.');
+  console.log('');
+  await sleep(2000);
+  console.log('Carriage Driver: "HEY!! Don\'t forget your things!"');
+  console.log('');
+  await sleep(2000);
   for (let i in playersInventory) {
     console.log('You have: ' + playersInventory[i].name + ' in your inventory.')
   };
   console.log('The leather pouch contains ' + pouch.gold + ' gold.')
   await sleep(2000);
+  console.log("")
   console.log('Carriage Driver: "Oh and one last thing. If it all gets too much you can press ctrl-c to quit at anytime!"')
   await sleep(2000);
+  console.log("")
   console.log('You\'re not sure what he\'s talking about but carry on into the town anyway...')
   await sleep(4000);
-  locationChoice(0);
+  locationChoice(0)
 }
 
 //function to display items in shop
@@ -233,14 +220,16 @@ let portableTrebuchet = new inv.Weapon ("pocket-sized trebuchet", 10, 1, 10);
 let ironSword = new inv.Weapon ("iron sword", 5, 1, 7);
 let poisonousJellyBean = new inv.Weapon ("poisonous jelly bean", 7, 1, 9);
 let shimmeringBlade = new inv.Weapon ("shimmering blade", 13, 1, 20);
-var existingItems = [woodenStick, pouch, portableTrebuchet, ironSword, poisonousJellyBean, shimmeringBlade];
+let healingPotion = new inv.Consumable ("health regeneration potion",1,5,5);
+var existingItems = [woodenStick, pouch, portableTrebuchet, ironSword, poisonousJellyBean, shimmeringBlade, healingPotion];
 
 woodenStick.description = "The trees were generous, this stick will mould you into a great warrior!";
 pouch.description = "The finest of cows sacrificed themselves for this pouch!";
 portableTrebuchet.description = "Take down the biggest of beasts with this little pocket-rocket!";
 ironSword.description = "Crafted by the best iron monger in the village!";
 poisonousJellyBean.description = "a lethal version of the children's favourite!";
-shimmeringBlade.description = "a blade so shiny it's blinding"
+shimmeringBlade.description = "a blade so shiny it's blinding";
+healingPotion.description = "a potion to boost your health";
 
 //Adding all current object instances to a running inventory.
 var playersInventory = [];
@@ -253,5 +242,39 @@ for (let i of existingItems) {
     shopInventory.push(i);
 };
 }
-{startGame();}
+
+
+function forest() {
+  console.log("")
+  console.log("Welcome to the forest");
+  console.log("What do you want to do?");
+  console.log("1: Fight a monster");
+  console.log("0: Go back to village square");
+  const forestPrompt = prompt("Pick a number");
+  if (forestPrompt == 0){
+    locationChoice(0);
+  } else if (forestPrompt == 1){
+    console.log(player)
+    com.initiateCombat(player, com.monstersArray, playersInventory, pouch);
+    //console.log(playersHealthBar);
+
+  };
+};
+
+//Intro 
+let player = new com.Player('player', 20, 20)
+console.log('Welcome to Cannibal Retribution!')
+const wantToPlay = prompt("Do you want to play? (Y/N)");
+if (wantToPlay.toLowerCase() == "y") {
+  console.log('Carriage Driver: "Hey you back there, whats your name? They never tell me anything..."');
+  const nameChoice = prompt('Enter name:');
+  player.name = nameChoice;
+  console.log('');
+  locationChoice(0)
+}
+else {
+   console.log("Okay, no worries!");
+}
+
+
 

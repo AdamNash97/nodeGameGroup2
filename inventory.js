@@ -24,14 +24,20 @@ export class Weapon extends Item {
     }
 };
 
+export class Consumable extends Item {
+    constructor(name, state, value, healthRegen){
+        super(name, state, value)
+        this.healthRegen = healthRegen
+    }
+}
 export class Wallet extends Item {
     constructor(name, gold, state) {
         super(name, state);
         this.gold = gold;
     }
-    buy(price) {
-        let newGold = this.gold - price;
-        this.gold = newGold;
+    changeGold(goldDiff) {
+        this.gold = this.gold + goldDiff
+        console.log('You now have ' + this.gold + ' gold.')
     }
 };
 
