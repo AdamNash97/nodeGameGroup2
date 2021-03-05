@@ -14,6 +14,9 @@ export class Player {
         enemy.health = enemy.health - damage;
         console.log(`${this.name} deals ${damage} damage!`)
     }
+    restoreHealth() {
+        this.health = this.maxHealth;
+    }
 
     Flee() {
         let fleeProb = math.random()
@@ -78,7 +81,7 @@ export function combat(player, selectedMonster, playersInventory, pouch) {
         for (let i in playersInventory){
             if ("damage" in playersInventory[i]){
                 console.log(`${i} :  ${playersInventory[i].name}, deals between 1 and ${playersInventory[i].damage} damage`);
-            } else{}
+            }
         }
         const weaponchoice = prompt('Enter which weapon you would like to attack with')
         player.Attack(selectedMonster, playersInventory[Number(weaponchoice)]);
@@ -105,12 +108,11 @@ export function combat(player, selectedMonster, playersInventory, pouch) {
     else if (combatOption == 3){
         player.Flee();
         if(locationChoice.locationIndex == 5){
-        selectedMonster.Attack(player)
-        healthCheck(selectedMonster, player, playersInventory, pouch)
-        }else{}
-    }
-}
-
+            selectedMonster.Attack(player);
+            healthCheck(selectedMonster, player, playersInventory, pouch);
+        };
+    };
+};
 export function healthCheck(selectedMonster, player, playersInventory, pouch){
 if (selectedMonster.health <= 0){
     console.log(`Congratulations, you have defeated ${selectedMonster.name}!`);
@@ -133,7 +135,7 @@ if (selectedMonster.health <= 0){
     }
 }
 //Creating health bar 
-
+/*
 export function HealthBar(color, length) {
   this.barLength=length;
   this.color=color;
@@ -174,12 +176,12 @@ HealthBar.prototype.changeColor= function()
 //Instantiating health bars
 const playerHealthBar= new HealthBar('green',20);
 //const monsterHealthBar= new HealthBar('green',Monster.health);
-
+*/
 //Creating instances of monsters to battle
 
 let mrBlobby = new Monster(10,7, 'Mr. Blobby', 10);
 let naughtySanta = new Monster(5,2, 'Naughty Santa', 5);
-let satanHimself = new Monster(666,10,'Satan Himself', 20);
+let satanHimself = new Monster(666,10,'Satan Himself', 200);
 let regularPigeon = new Monster(10,50, 'a Pigeon', 100);
 let rabidSquirrel = new Monster(7, 10, 'Rabid Squirrel', 10)
 let zombie = new Monster(20, 3, 'Zombie', 10)
@@ -188,7 +190,7 @@ let shiaLaBeouf = new Monster(15, 4, 'Shia La Beouf', 69)
 mrBlobby.description = "a spotted beast so rare that he tickle you down to the ground.";
 naughtySanta.description = "an angry santa who fires elves at a rapid rate.";
 satanHimself.description = "you don't wanna meet this boy in a dark alley.";
-regularPigeon.description = "a completely normal pigeon";
+regularPigeon.description = "a completely normal pigeon...?";
 rabidSquirrel.description = "just a little fluffy squirrel...thats foaming at the mouth and hungry for blood.";
 zombie.description = "an ugly beast hungry for your brains.";
 shiaLaBeouf.description = "an actual cannibal!";

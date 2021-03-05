@@ -69,7 +69,7 @@ function shop() {
   }
   ///////////////////////////////////////////////////////////////////////
   else if (shopPrompt == 1){
-    displayItems();
+    displayItems(shopInventory);
     const browseOrBuy = prompt("Enter 1 to buy an item or Enter 2 to examine an item");
     /////////////////////////////////////
     if(browseOrBuy == 1){
@@ -103,7 +103,11 @@ function shop() {
   }
   /////////////////////////////////////////////////////////////////////////
   else if (shopPrompt == 2){
-    const sellItem = prompt("what would you like to sell?")
+    displayItems(playersInventory);
+    const sellItem = prompt("what would you like to sell?");
+    shopInventory.push(playersInventory[Number(sellItem)]);
+    console.log(`you have sold your ${playersInventory[Number(sellItem)].name} for ${playersInventory[Number(sellItem)].value} gold`)
+    pouch.changeGold(playersInventory[Number(sellItem)]);
     shop();
   }
 }
@@ -134,8 +138,8 @@ function casino() {
 function gallows() {
   console.log("")
   console.log("Welcome to the gallows");
-  console.log("What do you want to do?");
-  console.log("1: Play Hangman");
+  console.log("There's nothing to do here right now...");
+  console.log("");
   console.log("0: Go back to village square");
   const gallowsPrompt = prompt("Pick a number");
   if (gallowsPrompt == 0){
@@ -147,10 +151,17 @@ function tavern() {
   console.log("")
   console.log("Welcome to the tavern");
   console.log("What do you want to do?");
-  console.log("1: get booze");
+  console.log("1: get booze (3 gold)");
   console.log("0: Go back to village square");
   const tavernPrompt = prompt("Pick a number");
-  if (tavernPrompt == 0){
+  if (tavernPrompt == 1){
+    pouch.changeGold(-3)
+    console.log('You get some booze and a nice hot meal');
+    player.restoreHealth();
+    console.log('You have been restored to full health.')
+    locationChoice(0);
+  }
+  else if (tavernPrompt == 0){
     locationChoice(0);
   };
 };
@@ -165,6 +176,14 @@ function temple() {
   const templePrompt = prompt("Pick a number");
   if (templePrompt == 0){
     locationChoice(0);
+  }else if (templePrompt == 1){
+    if (orbsTouched == 0){
+        orbsTouched = 1
+        touchOrb1();
+    }else if (orbsTouched == 1){
+        touchOrb2()
+    }
+
   };
 };
 
@@ -185,7 +204,7 @@ async function gameIntro() {
   console.log('You look around but don\'t recognise this town.');
   console.log('');
   await sleep(2000);
-  console.log('Carriage Driver: "Well, good luck out there ' + player.name + '.');
+  console.log('Carriage Driver: "Well, good luck out there ' + player.name + '."');
   console.log('');
   await sleep(2000);
   console.log('You wonder if anyone in town might be able to help you...');
@@ -208,33 +227,37 @@ async function gameIntro() {
   console.log("")
   console.log('You\'re not sure what he\'s talking about but carry on into the town anyway...')
   await sleep(4000);
-  locationChoice(0)
+  locationChoice(0);
 }
 
 //function to display items in shop
-function displayItems() {
-  for (let i in shopInventory) {
-    console.log(`${i} : ${shopInventory[i].name}, Price: ${shopInventory[i].value}`);
+function displayItems(Inventory) {
+  for (let i in Inventory) {
+    console.log(`${i} : ${Inventory[i].name}, Price: ${Inventory[i].value}`);
   }
 }
 
+//Pouch
+let pouch = new inv.Wallet ("leather pouch", 200, 3, 0);
+pouch.description = "The finest of cows sacrificed themselves for this pouch!";
+
 //Creating instances of the inventory objects in the gaming environment.
 let woodenStick = new inv.Weapon ("wooden stick", 1, 3, 0);
-let pouch = new inv.Wallet ("leather pouch", 10, 3, 0);
 let portableTrebuchet = new inv.Weapon ("pocket-sized trebuchet", 10, 1, 10);
 let ironSword = new inv.Weapon ("iron sword", 5, 1, 7);
 let poisonousJellyBean = new inv.Weapon ("poisonous jelly bean", 7, 1, 9);
 let shimmeringBlade = new inv.Weapon ("shimmering blade", 13, 1, 20);
+let gun = new inv.Weapon("a gun", 20, 1, 50);
 let healingPotion = new inv.Consumable ("health regeneration potion", 1, 5, 5);
-var existingItems = [woodenStick, pouch, portableTrebuchet, ironSword, poisonousJellyBean, shimmeringBlade, healingPotion];
-
+var existingItems = [woodenStick, pouch, portableTrebuchet, ironSword, poisonousJellyBean, shimmeringBlade, healingPotion.healthRegen, gun];
 woodenStick.description = "The trees were generous, this stick will mould you into a great warrior!";
-pouch.description = "The finest of cows sacrificed themselves for this pouch!";
+
 portableTrebuchet.description = "Take down the biggest of beasts with this little pocket-rocket!";
 ironSword.description = "Crafted by the best iron monger in the village!";
 poisonousJellyBean.description = "a lethal version of the children's favourite!";
 shimmeringBlade.description = "a blade so shiny it's blinding";
 healingPotion.description = "a potion to boost your health";
+gun.description = "how did this get here?"
 
 //Adding all current object instances to a running inventory.
 var playersInventory = [];
@@ -255,7 +278,7 @@ function forest() {
   console.log("What do you want to do?");
   console.log("1: Fight a monster");
   console.log("0: Go back to village square");
-  const forestPrompt = prompt("Pick a number");
+  const forestPrompt = prompt("Pick a number:");
   if (forestPrompt == 0){
     locationChoice(0);
   } else if (forestPrompt == 1){
@@ -266,8 +289,124 @@ function forest() {
   };
 };
 
+async function touchOrb1(){
+    console.log('Unknown voice: "HEY! WHAT DO YOU THINK YOU\'RE DOING!!!"');
+    console.log('');
+    await sleep(2000);
+    console.log('A robed man with a hood covering his face appears from behind a pillar.');
+    console.log('')
+    await sleep(2000);
+    console.log('Robed man: "I am the robed man, guardian of...');
+    console.log('');
+    await sleep(2000);
+    console.log('Robed man: "THE ORB OF TRUTH"')
+    console.log('');
+    await sleep(2000);
+    console.log('Maybe this will reveal how you got here, and who sent you...')
+    console.log('');
+    await sleep(2000);
+    console.log('Robed man: "I see much confusion in you... perhaps I\'ll let you use the orb...')
+    console.log('');
+    await sleep(2000);
+    console.log('Robed man: "FOR A PRICE!!! MWAHAHAHAHA *cough* *cough* excuse me..')
+    console.log('');
+    await sleep(2000);
+    console.log('Robed man: "Yes, uhhh 200 gold should do it..."')
+    console.log('');
+    await sleep(2000);
+    console.log('You leave with more questions than answers... but perhaps you\'re on the right track')
+    console.log('');
+    await sleep(4000);
+    locationChoice(0);
+  }
+
+async function touchOrb2(){
+  console.log('Robed man: "Oh. You\'re back...');
+  console.log('');
+  await sleep(2000);
+  console.log('Robed man: Well, do you have the moolah, uh, I mean gold..?')
+  console.log('');
+  await sleep(2000);
+  let orbPrompt = prompt("Hand over gold? (Y/N)")
+  if (orbPrompt.toUpperCase() == "Y"){
+    if (pouch.gold >= 200){
+      winnerWinnerChickenDinner()
+    }else{
+      console.log('Robed man: "Do you think I am a fool? Fool.')
+      console.log('');
+      await sleep(2000);
+      console.log('Robed man: "Come back when you\'re less disgustingly poor or don\' come back at all!')
+      console.log('');
+      await sleep(2000);
+      console.log('That was a rude, you head back to the square...')
+      locationChoice(0)
+    };
+
+  } else {
+    console.log('Robed man: "THEN SCRAM!!! Pathetic...')
+    await sleep(2000)
+    locationChoice(0)
+  };
+
+}
+
+async function winnerWinnerChickenDinner() {
+  console.log('Robed man: "WAIT WHAT! How\'d someone like you actually get that kind of gold???')
+  console.log('');
+  await sleep(2000);
+  console.log('Robed man: "Gods, they\'re not gonna be happy with me now..."')
+  console.log('');
+  await sleep(2000);
+  console.log('Robed man: "Oh well, a promise is a promise...')
+  console.log('');
+  await sleep(2000);
+  console.log('Robed man: "Go on then, have at it."')
+  console.log('');
+  await sleep(2000);
+  console.log('You reach out and touch the orb...')
+  console.log('');
+  await sleep(2000);
+  console.log('A flash of blinding light! A sense of fury and rage overcomes you!')
+  console.log('');
+  await sleep(2000);
+  console.log('You see three faces, recognisable to you...')
+  console.log('');
+  await sleep(2000);
+  console.log('Mysterious ominous voice: "NOW YOU SEE THE TRUTH"')
+  console.log('');
+  await sleep(2000);
+  console.log('Mysterious ominous voice: "LOOK DEEPER INSIDE YOURSELF"')
+  console.log('');
+  await sleep(2000);
+  console.log('The memories come rushing back.')
+  console.log('');
+  await sleep(2000);
+  console.log('NO! It can\'t be!')
+  console.log('');
+  await sleep(2000);
+  console.log('Mysterious ominous voice: "DO NOT FEAR THE TRUTH"')
+  console.log('');
+  await sleep(2000);
+  console.log('You can see clearly now...')
+  console.log('');
+  await sleep(2000);
+  console.log('It was them who sent you here...')
+  console.log('');
+  await sleep(2000);
+  console.log('Harry, Matt and Adam!!!')
+  console.log('');
+  await sleep(2000);
+  console.log('Those bastards...')
+  console.log('');
+  await sleep(2000);
+  console.log('To be continued..?')
+  console.log('');
+  await sleep(2000);
+}
+
 //Intro 
 let player = new com.Player('player', 20, 20)
+var orbsTouched = 0
 console.log('Welcome to Cannibal Retribution!')
 const wantToPlay = prompt("Do you want to play? (Y/N)");
 if (wantToPlay.toLowerCase() == "y") {
@@ -275,7 +414,7 @@ if (wantToPlay.toLowerCase() == "y") {
   const nameChoice = prompt('Enter name:');
   player.name = nameChoice;
   console.log('');
-  locationChoice(0)
+  gameIntro();
 }
 else {
    console.log("Okay, no worries!");

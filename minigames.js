@@ -75,9 +75,33 @@ export function hangman() {
 
 
 
+// Blackjack for Casino
+
+export function blackjack(pouch){
+    console.log("Welcome to blackjack!!");
+    console.log("");
+
+    let ruleChoice = prompt("Would you like to hear the rules? (Y/N)")
+    if (ruleChoice.toUpperCase() == "Y") {
+        console.log("The goal of blackjack is to beat the dealer's hand without going over 21.");
+        console.log("Face cards are worth 10. Aces are worth 1 in this version of the game");
+        console.log("Each player starts with two cards, one of the dealer's cards is hidden until the end.");
+        console.log("To 'Hit' is to ask for another card. To 'Stand' is to hold your total and end your turn.");
+        console.log("If you go over 21 you bust, and the dealer wins regardless of the dealer's hand.");
+        console.log("If you are dealt 21 from the start (Ace & 10), you got a blackjack.");
+        console.log("Payout:");
+        console.log("If you win the hand, you'll receive 1.5x your original stake!");
+    } else {
+        console.log("Alright, lets play!");
+    }
+    inv.countMoney(pouch);
+    let bet = prompt('How much do you want to wager?')
+    console.log("You've bet:" + bet)
+    bet = Number(bet)
+    pouch.changeGold(-bet)
+    
 
 
-export function blackjack(){
 
 }
 
