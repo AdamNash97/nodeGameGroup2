@@ -11,16 +11,18 @@ function makeBet(pouch){
         console.log("You have no coins to bet, sorry you can't play! \n");
         locationChoice(3);
     } else {
-    let wager = prompt('How much do you want to wager?')
-    wager = Number(wager)
-    if(wager <= pouch.gold && wager > 0){
-    console.log("You've bet:" + wager + "\n")
-    pouch.changeGold(-wager)}
-    else {
-        console.log(`You must bet something, but not more than the gold in your pouch! \n`)
-        makeBet(pouch);
-    }
-}
+        let wager = prompt('How much do you want to wager?')
+        wager = Number(wager)
+        if(wager <= pouch.gold && wager > 0){
+            console.log("You've bet:" + wager + "\n")
+            pouch.changeGold(-wager)
+            return wager
+        }
+        else {
+            console.log(`You must bet something, but not more than the gold in your pouch! \n`)
+            makeBet(pouch);
+        }
+      }
 }
 
 // Roulette for casino
@@ -48,7 +50,7 @@ export function roulette(pouch) {
     // console.log("You've bet:" + bet)
     // bet = Number(bet)
     // pouch.changeGold(-bet)
-    makeBet(pouch);
+    let bet = makeBet(pouch);
     let choice = prompt('What would you like to choose? (0-36 or ODD or EVEN): ')
     console.log("You chose: " + choice);
 
@@ -116,7 +118,7 @@ export function blackjack(pouch){
       console.log("Please answer 'yes' or 'no.'");
       blackjack(pouch);
     }
-    makeBet(pouch);
+    let wager = makeBet(pouch);
 
 
 //Number of card packs (52 cards each) to be used in game
