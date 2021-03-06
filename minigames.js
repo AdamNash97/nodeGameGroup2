@@ -98,19 +98,23 @@ export function roulette(pouch) {
 export function blackjack(pouch){
     console.log("Welcome to blackjack!!");
     console.log("");
-
-    let ruleChoice = prompt("Would you like to hear the rules? (Y/N)")
-    if (ruleChoice.toUpperCase() == "Y") {
-        console.log("The goal of blackjack is to beat the dealer's hand without going over 21.");
-        console.log("Face cards are worth 10. Aces are worth 1 or 11 depending on which provides the optimum hand.");
-        console.log("Each player starts with two cards, one of the dealer's cards is hidden until the end.");
-        console.log("To 'Hit' is to ask for another card. To 'Stand' is to hold your total and end your turn.");
-        console.log("If you go over 21 you bust, and the dealer wins regardless of the dealer's hand.");
-        console.log("If you are dealt 21 from the start (Ace & 10), you got a blackjack.");
-        console.log("Payout:");
-        console.log("If you win the hand, you'll receive 2x your original stake! \n" );
+    const ruleChoice = prompt("Would you like to hear the rules? (y/n) > ");
+    var yes = /^y(?:es)?/i;
+    var no = /^no?/i;
+    if (yes.test(ruleChoice)) {
+      console.log("The goal of blackjack is to beat the dealer's hand without going over 21.");
+      console.log("Face cards are worth 10. Aces are worth 1 or 11 depending on which provides the optimum hand.");
+      console.log("Each player starts with two cards, one of the dealer's cards is hidden until the end.");
+      console.log("To 'Hit' is to ask for another card. To 'Stand' is to hold your total and end your turn.");
+      console.log("If you go over 21 you bust, and the dealer wins regardless of the dealer's hand.");
+      console.log("If you are dealt 21 from the start (Ace & 10), you got a blackjack.");
+      console.log("Payout:");
+      console.log("If you win the hand, you'll receive 2x your original stake! \n" );
+    } else if (no.test(ruleChoice)) {
+      console.log("Alright, lets play! \n");
     } else {
-        console.log("Alright, lets play! \n");
+      console.log("Please answer 'yes' or 'no.'");
+      blackjack(pouch);
     }
     makeBet(pouch);
 
@@ -168,7 +172,7 @@ function buildDeck(numPacks) {
     return deck;
   }
 
-//Create a player with the ability to build a hand of cards
+//Create a generic player with the ability to build a hand of cards
 class Player {
 
   constructor() {
@@ -259,7 +263,7 @@ class User extends Player { // "INHERITANCE"
 
   hit() {
     return new Promise( (resolve, reject) => {
-      const question = prompt("Hit? > ");
+      const question = prompt("Hit? (y/n) > ");
         var yes = /^y(?:es)?/i;
         var no = /^no?/i;
         if (yes.test(question)) {
@@ -267,7 +271,7 @@ class User extends Player { // "INHERITANCE"
         } else if (no.test(question)) {
           resolve(false);
         } else {
-          console.log("Please answer 'yes' or 'no.'");
+          console.log("Please answer 'y' or 'n'");
           resolve(this.hit());
         }
       
@@ -378,7 +382,7 @@ Let's play some Blackjack!
   
   .then( () => {
     determineWinner(players);
-    const question2 = prompt("Play again? > ");
+    const question2 = prompt("Play again? (y/n) > ");
       var yes = /^y(?:es)?/i;
       if (!yes.test(question2)) {
         locationChoice(3);
