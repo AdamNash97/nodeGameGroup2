@@ -156,11 +156,10 @@ function casino() {
     locationChoice(0);
   }
   else if (casinoPrompt == 1){
-    console.log("Sorry our tables are currently being repaired.")
-    locationChoice(3)
+    game.blackjack(pouch);
   }
   else if (casinoPrompt == 2){
-    game.roulette(pouch)
+    game.roulette(pouch);
     locationChoice(3);
   } else {
     console.log("Invalid input, sorry.");
