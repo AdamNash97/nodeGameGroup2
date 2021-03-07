@@ -1,14 +1,14 @@
-//Allows users to exit at anytime from prompt line
+//Allows user input and for users to exit at anytime from the prompt line using ctrl-c
 import promptSync from 'prompt-sync';
 const prompt = promptSync({sigint: true});
 //Importing modules for each location:
 import * as inv from './inventory.js';
-import * as game from './minigames.js';
 import * as gal from './gallows.js';
 import * as com from './combat.js';
 import * as sh from './shop.js';
 import * as te from './temple.js';
 import * as ta from './tavern.js';
+import * as ca from './casino.js';
 
 // LOCATION SELECTOR
 export function locationChoice (locationIndex){
@@ -23,7 +23,7 @@ export function locationChoice (locationIndex){
         ta.tavern();
         break;
       case 3: //3 : Casino
-        casino();
+        ca.casino();
         break;
       case 4: //4 : Gallows
         gallows();
@@ -55,31 +55,6 @@ function villageSquare() {
   } else {
     console.log("Invalid input, sorry.");
     villageSquare();
-  }
-}
-
-// CASINO
-function casino() {
-  console.log("")
-  console.log("Welcome to the casino");
-  console.log("What do you wanna do?");
-  console.log("1: Play Blackjack");
-  console.log("2: Play Roulette")
-  console.log("0: Go back to village square");
-  let casinoPrompt = prompt("Pick a number: ");
-  casinoPrompt = Number(casinoPrompt);
-  if (casinoPrompt == 0){
-    locationChoice(0);
-  }
-  else if (casinoPrompt == 1){
-    game.blackjack(inv.pouch);
-  }
-  else if (casinoPrompt == 2){
-    game.roulette(inv.pouch);
-    locationChoice(3);
-  } else {
-    console.log("Invalid input, sorry.");
-    casino();
   }
 }
 
