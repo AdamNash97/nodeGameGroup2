@@ -2,6 +2,8 @@ import promptSync from 'prompt-sync';
 import {locationChoice} from './index.js';
 import hangmanAscii from 'hangman-ascii';
 import * as ind from './index.js';
+import * as com from './combat.js';
+import * as inv from './inventory.js';
 const prompt = promptSync({sigint: true});
 
 // GALLOWS
@@ -23,7 +25,7 @@ export function gallows() {
   else if (gallowsPrompt == 2){
     let hangmanSuccess = hangmanGame();
     if (hangmanSuccess) {
-      console.log('Criminal: Oh wow, you saved me ' + player.name + '! I don\'t have much but I owe you everything!')
+      console.log('Criminal: Oh wow, you saved me ' + com.player.name + '! I don\'t have much but I owe you everything!')
       inv.pouch.changeGold(3)
       ind.locationChoice(0)
     }

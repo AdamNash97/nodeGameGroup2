@@ -14,7 +14,7 @@ export function gameStart(){
     const wantToPlay = prompt("Do you want to play? (y/n)");
     if(yes.test(wantToPlay)){
       console.log('Carriage Driver: "Hey you back there, whats your name? They never tell me anything..."');
-      const nameChoice = prompt('Enter name:');
+      const nameChoice = prompt('Enter name: ');
       com.player.name = nameChoice;
       console.log('');
       gameIntro();
@@ -41,7 +41,7 @@ export async function gameIntro() {
     console.log('Carriage Driver: "Oh yeah... don\'t worry about that... it\'ll heal in no time!"');
     console.log('');
     await ind.sleep(2000);
-    console.log('Carriage Driver: "Alright.. this is where they paid me to drop you off"');
+    console.log('Carriage Driver: "Alright.. this is where they paid me to drop you off."');
     console.log('');
     await ind.sleep(2000);
     console.log('Horrified, you look around but don\'t recognise this town.');

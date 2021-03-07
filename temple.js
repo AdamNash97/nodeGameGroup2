@@ -1,6 +1,7 @@
 import * as ind from './index.js';
 import promptSync from 'prompt-sync';
 const prompt = promptSync({sigint: true});
+import * as inv from './inventory.js';
 
 //Set initial number of orbs touched to zero before entering temple
 var orbsTouched = 0;
@@ -31,14 +32,14 @@ export function temple() {
   };
 
 // TOUCH ORB
-export async function touchOrb1(){
+async function touchOrb1(){
     console.log('Unknown voice: "HEY! WHAT DO YOU THINK YOU\'RE DOING!!!"');
     console.log('');
     await ind.sleep(2000);
     console.log('A robed man with a hood covering his face appears from behind a pillar.');
     console.log('')
     await ind.sleep(2000);
-    console.log('Robed man: "I am the robed man, guardian of...');
+    console.log('Robed man: "I am the robed man, guardian of..."');
     console.log('');
     await ind.sleep(2000);
     console.log('Robed man: "THE ORB OF TRUTH"')
@@ -47,10 +48,10 @@ export async function touchOrb1(){
     console.log('Maybe this will reveal how you got here, and who sent you...')
     console.log('');
     await ind.sleep(2000);
-    console.log('Robed man: "I see much confusion in you... perhaps I\'ll let you use the orb...')
+    console.log('Robed man: "I see much confusion in you... perhaps I\'ll let you use the orb..."')
     console.log('');
     await ind.sleep(2000);
-    console.log('Robed man: "FOR A PRICE!!! MWAHAHAHAHA *cough* *cough* excuse me..')
+    console.log('Robed man: "FOR A PRICE!!! MWAHAHAHAHA *cough* *cough* excuse me..."')
     console.log('');
     await ind.sleep(2000);
     console.log('Robed man: "Yes, uhhh 100 gold should do it..."')
@@ -63,30 +64,35 @@ export async function touchOrb1(){
 }
 
   // TOUCH ORB 2
-export async function touchOrb2(){
-  console.log('Robed man: "Oh. You\'re back...');
+async function touchOrb2(){
+  console.log('Robed man: "Oh. You\'re back..."');
   console.log('');
   await ind.sleep(2000);
-  console.log('Robed man: Well, do you have the moolah, uh, I mean gold..?')
+  console.log('Robed man: "Well, do you have the moolah, uh, I mean gold..?"')
   console.log('');
   await ind.sleep(2000);
   let orbPrompt = prompt("Hand over gold? (Y/N)")
   if (orbPrompt.toUpperCase() == "Y"){
     if (inv.pouch.gold >= 100){
+      inv.pouch.changeGold(-100)
       winnerWinnerChickenDinner()
     }else{
-      console.log('Robed man: "Do you think I am a fool? Fool.')
+      console.log('Robed man: "Do you think I am a fool? Fool."')
       console.log('');
       await ind.sleep(2000);
-      console.log('Robed man: "Come back when you\'re less disgustingly poor or don\' come back at all!')
+      console.log('Robed man: "Come back when you\'re less disgustingly poor or don\' come back at all!"')
       console.log('');
       await ind.sleep(2000);
       console.log('That was rude, you head back to the square...')
       ind.locationChoice(0)
     };
 
+  } else if (orbPrompt.toUpperCase() == "N"){
+    console.log('Robed man: "THEN SCRAM!!! Pathetic..."')
+    await ind.sleep(2000)
+    ind.locationChoice(0)
   } else {
-    console.log('Robed man: "THEN SCRAM!!! Pathetic...')
+    console.log('Robed man: "I have no idea what that means... GET OUT OF HERE!"')
     await ind.sleep(2000)
     ind.locationChoice(0)
   };
@@ -94,8 +100,8 @@ export async function touchOrb2(){
 }
 
 // WIN CONDITION
-export async function winnerWinnerChickenDinner() {
-  console.log('Robed man: "WAIT WHAT! How\'d someone like you actually get that kind of gold???')
+async function winnerWinnerChickenDinner() {
+  console.log('Robed man: "WAIT WHAT! How\'d someone like you actually get that kind of gold???"')
   console.log('');
   await ind.sleep(2000);
   console.log('Robed man: "Gods, they\'re not gonna be happy with me now..."')
