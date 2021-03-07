@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/AdamNash97/nodeGameGroup2#readme",
   "dependencies": {
+    "hangman-ascii": "^1.0.4",
     "lodash": "^4.17.21",
     "mathjs": "^9.2.0",
     "mocha": "^8.3.1",

@@ -71,9 +71,12 @@ export function combat(player, selectedMonster, playersInventory, pouch) {
     let combatOption = prompt('Enter the number of the action you would like: ');
     combatOption = Number(combatOption);
     if (combatOption == 1){
+        let currentInv = [];
         for (let i in playersInventory){
             if ("damage" in playersInventory[i]){
-                console.log(`${i} :  ${playersInventory[i].name}, deals between 1 and ${playersInventory[i].damage} damage`);
+                currentInv.push(1);
+                let currentIndex = currentInv.length; 
+                console.log(`${currentIndex} :  ${playersInventory[i].name}, deals between 1 and ${playersInventory[i].damage} damage`);
             }
         }
         const weaponchoice = prompt('Enter which weapon you would like to attack with: ')
@@ -124,9 +127,8 @@ export function healthCheck(selectedMonster, player, playersInventory, pouch){
 if (selectedMonster.health <= 0){
     console.log("")
     console.log(`Congratulations, you have defeated ${selectedMonster.name}!`);
-    pouch.changeGold(selectedMonster.value);
     console.log(`You gained ${selectedMonster.value} gold!`);
-    inv.countMoney(pouch);
+    pouch.changeGold(selectedMonster.value);
     selectedMonster.health = selectedMonster.maxHealth
     locationChoice(0);
 }

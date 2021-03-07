@@ -3,6 +3,7 @@ import promptSync from 'prompt-sync';
 const prompt = promptSync({sigint: true});
 import * as inv from './inventory.js';
 import * as game from './minigames.js';
+import * as gal from './gallows.js';
 import * as math from 'mathjs';
 import * as com from './combat.js';
 
@@ -169,19 +170,7 @@ function casino() {
 
 // GALLOWS
 function gallows() {
-  console.log("")
-  console.log("Welcome to the gallows");
-  console.log("There's nothing to do here right now...");
-  console.log("");
-  console.log("0: Go back to village square");
-  const gallowsPrompt = prompt("Pick a number");
-  if (gallowsPrompt == 0){
-    locationChoice(0);
-  }
-  else {
-    console.log("Invalid input, sorry.");
-    gallows();
-  }
+  gal.initiateHanging();
 };
 
 // TAVERN
@@ -306,7 +295,7 @@ let portableTrebuchet = new inv.Weapon ("pocket-sized trebuchet", 10, 1, 10);
 let ironSword = new inv.Weapon ("iron sword", 5, 1, 7);
 let poisonousJellyBean = new inv.Weapon ("poisonous jelly bean", 7, 1, 9);
 let shimmeringBlade = new inv.Weapon ("shimmering blade", 13, 1, 20);
-let gun = new inv.Weapon("a gun", 20, 1, 50);
+let gun = new inv.Weapon("gun", 20, 1, 50);
 let healingPotion = new inv.Consumable ("health regeneration potion", 1, 5, 5);
 var existingItems = [woodenStick, pouch, portableTrebuchet, ironSword, poisonousJellyBean, shimmeringBlade, healingPotion, gun];
 

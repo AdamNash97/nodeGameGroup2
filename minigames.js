@@ -140,10 +140,10 @@ function *iterateRanks() {
     for (let i = 2; i < 11; i++) {
       yield i;
     }
-    yield "J";
-    yield "Q";
-    yield "K";
-    yield "A";
+    yield "J"; //Jack
+    yield "Q"; //Queen
+    yield "K"; //King
+    yield "A"; //Ace
   }
 
 //Shuffling cards into random order
@@ -231,6 +231,7 @@ class Dealer extends Player {
       super();
       this.name = "Dealer";
     }
+    //Allow dealer to take another card and add to hand
     hit() {
       if (this.hardTotal < 17) {
         return Promise.resolve(true); // hit
@@ -238,6 +239,7 @@ class Dealer extends Player {
         return Promise.resolve(false); // stand
       }
     }
+    //Puts one card on show for user to see 
     showCards() {
       var output = "XX"; // first card is face down
       for (let i = 1; i < this.cards.length; i++) { 
@@ -245,6 +247,7 @@ class Dealer extends Player {
       }
       return output;
     }
+    //Flip over all cards in dealer's hand
     revealAllCards() {
       var output = this.cards[0].show();
       for (let i = 1; i < this.cards.length; i++) { 
@@ -361,7 +364,7 @@ function game(deck) {
 
   console.log(`
 --------------------------
-Let's play some Blackjack!
+Let's play Blackjack!
     `);
 
   // initialization
