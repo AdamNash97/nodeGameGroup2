@@ -51,3 +51,140 @@ else {
 })();
 
 }
+
+// HANGMAN FUNCTION WIP
+
+export function hangmanGame() {
+  let targetWord = '';
+  let dArray = [];
+  let failCount = 0;
+  let success = false;
+
+  const words = ['Tavern','Shop','Casino','Forest','Temple','Gallows','Cannibal','Retribution','Shia','Hobbit','Dragon','Wizard','Lizard',
+                'Brother','Weapon','War','Warrior','Potion','Booze','Trebuchet','Gun','Jellybean','Pouch','Sword','Satan','Orb','Truth',
+                'Zombie','Pigeon','Squirrel']
+
+  const hangmanPics = [
+    ` 
+      +---+
+      |   |
+          |
+          |
+          |
+          |
+    =========`, 
+  
+    ` 
+      +---+
+      |   |
+      O   |
+          |
+          |
+          |
+    =========`, 
+  
+    ` 
+      +---+
+      |   |
+      O   |
+      |   |
+          |
+          |
+    =========`, 
+  
+    ` 
+      +---+
+      |   |
+      O   |
+     /|   |
+          |
+          |
+    =========`, 
+  
+    ` 
+      +---+
+      |   |
+      O   |
+     /|\\  |
+          |
+          |
+    =========`, 
+  
+    ` 
+      +---+
+      |   |
+      O   |
+     /|\\  |
+     /    |
+          |
+    =========`, 
+  
+    ` 
+      +---+
+      |   |
+      O   |
+     /|\\  |
+     / \\  |
+          |
+    =========`]
+
+  function init() {
+    console.log('Executioner: "So you wanna try and save this criminal scum? Well, if you can win my game I\'ll let him go..."\n');
+    console.log('Executioner: "I am going to give you some empty dashes ' +
+      'guess the word in question by typing one letter at a time,' + 
+      ' but if you can\'t get it in time he\'s gonna swing"');
+
+    targetWord = words[getRandom(words.length)];
+    dArray = Array(targetWord.length);
+    failCount = 0;
+    let success = letterLoop()
+    return success
+  }
+
+  function letterLoop() {
+
+    let letter = prompt("Enter a letter: ");
+    checkword(letter); 
+  }
+
+  function checkword(letter) {
+    let tick;
+    for (let i = 0; i < targetWord.length; i++) {
+      if (targetWord[i].toLowerCase() === letter) {
+        dArray[i] = targetWord[i];
+        tick = true;
+      } else if (dArray[i] === undefined) {
+        dArray[i] = '_';
+      }
+    }
+
+    tick ? tick = false : failCount++;
+    
+    if (failCount === 6) {
+      console.log(hangmanPics[failCount]);
+      console.log('Game over, he\'s hanged');
+      console.log('The word was', targetWord);
+    } else {
+      console.log(hangmanPics[failCount]);
+      console.log(dArray.join(' '));
+    }
+    while (failCount < 6) {
+      if (dArray.includes('_')) {
+        letterLoop()
+      } else {
+        console.log('Executioner: "Ahh you got it... Alright you scum, you\'re free, now get out of my sight!\n');
+        failCount = 7;
+        success = true;
+      }
+    }
+
+  }
+
+  //for getting random things
+  function getRandom(max) {
+    return Math.floor(Math.random() * (max));
+  }
+
+  init();
+  return success;
+}

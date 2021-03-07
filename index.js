@@ -78,7 +78,7 @@ function casino() {
   console.log("2: Play Roulette")
   console.log("0: Go back to village square");
   let casinoPrompt = prompt("Pick a number: ");
-  casinoPrompt = Number(casinoPrompt)
+  casinoPrompt = Number(casinoPrompt);
   if (casinoPrompt == 0){
     locationChoice(0);
   }
@@ -95,8 +95,39 @@ function casino() {
 }
 
 // GALLOWS
+
 function gallows() {
-  gal.initiateHanging();
+  console.log("")
+  console.log("Welcome to the gallows");
+  console.log("What do you wanna do?");
+  console.log("1: Watch the hanging");
+  console.log("2: Try and stop the hanging")
+  console.log("0: Go back to village square");
+  let gallowsPrompt = prompt("Pick a number: ");
+  gallowsPrompt = Number(gallowsPrompt);
+  if (gallowsPrompt == 0){
+    locationChoice(0);
+  }
+  else if (gallowsPrompt == 1){
+    gal.initiateHanging();
+  }
+  else if (gallowsPrompt == 2){
+    let hangmanSuccess = gal.hangmanGame();
+    if (hangmanSuccess) {
+      console.log('Criminal: Oh wow, you saved me ' + player.name + '! I don\'t have much but I owe you everything!')
+      inv.pouch.changeGold(3)
+      locationChoice(0)
+    }
+    else {
+      console.log('Executioner: "He got what he deserved... don\'t meddle next time."')
+      locationChoice(0)
+    }
+
+  } else {
+    console.log("Invalid input, sorry.");
+    casino();
+  }
+
 };
 
 // TAVERN
