@@ -1,5 +1,5 @@
 //Importing modules for each location in game:
-import * as gal from './gallows.js';
+import * as ga from './gallows.js';
 import * as sh from './shop.js';
 import * as te from './temple.js';
 import * as ta from './tavern.js';
@@ -27,7 +27,7 @@ export function locationChoice (locationIndex){
         ca.casino();
         break;
       case 4: //4 : Gallows
-        gal.gallows();
+        ga.gallows();
         break;
       case 5: //5 : Forest
         fo.forest();

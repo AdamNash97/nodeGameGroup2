@@ -5,7 +5,6 @@ import * as ind from './index.js';
 const prompt = promptSync({sigint: true});
 
 // GALLOWS
-
 export function gallows() {
   console.log("")
   console.log("Welcome to the gallows");
@@ -41,7 +40,6 @@ export function gallows() {
 };
 
 //HANGMAN ANIMATION
-
 export function initiateHanging(){
 
 console.log(`
@@ -89,7 +87,6 @@ else {
 }
 
 // HANGMAN FUNCTION WIP
-
 export function hangmanGame() {
   let targetWord = '';
   let dArray = [];

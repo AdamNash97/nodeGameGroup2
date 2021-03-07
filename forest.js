@@ -18,7 +18,6 @@ export function forest() {
     } else if (forestPrompt == 1){
       console.log(com.player)
       com.initiateCombat(com.player, com.monstersArray, inv.playersInventory, inv.pouch);
-      //console.log(playersHealthBar);
     } else {
       console.log("Invalid input, sorry.");
       forest();

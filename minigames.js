@@ -25,7 +25,7 @@ function makeBet(pouch){
       }
 }
 
-// Roulette for casino
+// ROULETTE FOR CASINO
 export function roulette(pouch) {
     console.log("Welcome to roulette!");
     console.log("");
@@ -89,8 +89,7 @@ export function roulette(pouch) {
 };
 
 
-// Blackjack for Casino
-
+// BLACKJACK FOR CASINO
 export function blackjack(pouch){
     console.log("Welcome to blackjack!!");
     console.log("");

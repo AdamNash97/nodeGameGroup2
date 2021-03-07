@@ -1,5 +1,5 @@
 /*
-States Explanation:
+States of item explanations:
 0: is out-of-play (destroyed or not yet introduced)
 1: is somewhere in the game world, but not yet found by the player
 2: has been handled by the player—e.g. taken and then dropped
@@ -88,7 +88,7 @@ export function examineItem(obj) {
 
 };
 
-//Pouch
+//Pouch to carry gold (currency in game)
 export var pouch = new Wallet ("leather pouch", 20, 3, 'DO NOT SELL');
 pouch.description = "The finest of cows sacrificed themselves for this pouch!";
 

@@ -3,6 +3,7 @@ import {locationChoice} from './index.js';
 import * as math from 'mathjs';
 
 const prompt = promptSync({sigint: true});
+//Player to take part in battle
 export class Player {
     constructor (name, health, maxHealth) {
         this.health = health;
@@ -28,16 +29,17 @@ export class Player {
             }
             else{
                 this.health = this.health + Consumable.healthRegen;
-                //playerHealthBar.increase(Consumable.healthRegen);
+                
             }
             console.log(`You have healed and now have ${this.health} health`)
-            //console.log(playerHealthBar);
+           
 
         }
         playersInventory.splice((playersInventory.indexOf(Consumable)),1);
     }
 }
 
+//Monster to battle against
 export class Monster {
     constructor (health, maxHealth, attack, name, value) {
         this.health = health;
@@ -49,20 +51,20 @@ export class Monster {
     Attack(player) {
         let damage = math.randomInt(1, this.attack);
         player.health = player.health - damage;
-        //playerHealthBar.decrease(damage);
         console.log(`${this.name} deals ${damage} damage!`)
-        //console.log(playerHealthBar);
     };
 }
 
+//Begin combat events
 export function initiateCombat(player, monstersArray, playersInventory, pouch){
-    //randomly selecting a monster//
+    //randomly selecting a monster
     console.log(`\n`);
     let selectedMonster = monstersArray[math.randomInt(0,9)];
     console.log(`You come across ${selectedMonster.name}, ${selectedMonster.description}`);
     console.log('What would you like to do?');
     combat(player, selectedMonster, playersInventory, pouch);
 }
+//Initiate attack during combat
 export function combat(player, selectedMonster, playersInventory, pouch) {
     console.log(`${selectedMonster.name} has ${selectedMonster.health} health`)
     console.log(`You have ${player.health} health`)
@@ -72,11 +74,8 @@ export function combat(player, selectedMonster, playersInventory, pouch) {
     let combatOption = prompt('Enter the number of the action you would like: ');
     combatOption = Number(combatOption);
     if (combatOption == 1){
-        //let currentInv = [];
         for (let i in playersInventory){
             if ("damage" in playersInventory[i]){
-                //currentInv.push(playersInventory[i]);
-                //let currentIndex = currentInv.length; 
                 console.log(`${i} :  ${playersInventory[i].name}, deals between 1 and ${playersInventory[i].damage} damage`);
             }
         }
@@ -94,7 +93,6 @@ export function combat(player, selectedMonster, playersInventory, pouch) {
         }
     }
     else if (combatOption == 2){
-        //if (playersInventory.includes(inv.Consumable)){
             let potionCheck = 0;
             for (let i in playersInventory){
                 if (playersInventory[i].name == "health regeneration potion"){
@@ -147,6 +145,29 @@ if (selectedMonster.health <= 0){
     combat(player, selectedMonster, playersInventory, pouch);
     }
 }
+
+//Creating instances of monsters to battle
+let mrBlobby = new Monster(10, 10, 7, 'Mr. Blobby', 10);
+let naughtySanta = new Monster(5, 5, 2, 'Naughty Santa', 5);
+let satanHimself = new Monster(666, 666, 10,'Satan Himself', 200);
+let regularPigeon = new Monster(10, 10, 50, 'a Pigeon', 100);
+let rabidSquirrel = new Monster(7, 7, 10, 'Rabid Squirrel', 10)
+let zombie = new Monster(20, 20, 3, 'Zombie', 10)
+let shiaLaBeouf = new Monster(15, 15, 4, 'Shia La Beouf', 69)
+
+mrBlobby.description = "a spotted beast so rare that he'll tickle you down to the ground.";
+naughtySanta.description = "an angry santa who fires elves at a rapid rate.";
+satanHimself.description = "you don't wanna meet this boy in a dark alley.";
+regularPigeon.description = "a completely normal pigeon...?";
+rabidSquirrel.description = "just a little fluffy squirrel...thats foaming at the mouth and hungry for blood.";
+zombie.description = "an ugly beast hungry for your brains.";
+shiaLaBeouf.description = "an actual cannibal!";
+
+export var monstersArray = [mrBlobby,naughtySanta,satanHimself,mrBlobby,regularPigeon,rabidSquirrel,zombie,shiaLaBeouf,zombie,rabidSquirrel];
+
+//Creating a new player instance for the user that will be used globally across all modules
+export var player = new Player('player', 20, 20);
+
 //Creating health bar 
 /*
 export function HealthBar(color, length) {
@@ -190,25 +211,3 @@ HealthBar.prototype.changeColor= function()
 const playerHealthBar= new HealthBar('green',20);
 //const monsterHealthBar= new HealthBar('green',Monster.health);
 */
-//Creating instances of monsters to battle
-
-let mrBlobby = new Monster(10, 10, 7, 'Mr. Blobby', 10);
-let naughtySanta = new Monster(5, 5, 2, 'Naughty Santa', 5);
-let satanHimself = new Monster(666, 666, 10,'Satan Himself', 200);
-let regularPigeon = new Monster(10, 10, 50, 'a Pigeon', 100);
-let rabidSquirrel = new Monster(7, 7, 10, 'Rabid Squirrel', 10)
-let zombie = new Monster(20, 20, 3, 'Zombie', 10)
-let shiaLaBeouf = new Monster(15, 15, 4, 'Shia La Beouf', 69)
-
-mrBlobby.description = "a spotted beast so rare that he'll tickle you down to the ground.";
-naughtySanta.description = "an angry santa who fires elves at a rapid rate.";
-satanHimself.description = "you don't wanna meet this boy in a dark alley.";
-regularPigeon.description = "a completely normal pigeon...?";
-rabidSquirrel.description = "just a little fluffy squirrel...thats foaming at the mouth and hungry for blood.";
-zombie.description = "an ugly beast hungry for your brains.";
-shiaLaBeouf.description = "an actual cannibal!";
-
-export var monstersArray = [mrBlobby,naughtySanta,satanHimself,mrBlobby,regularPigeon,rabidSquirrel,zombie,shiaLaBeouf,zombie,rabidSquirrel];
-
-//Creating a new player instance for the user
-export var player = new Player('player', 20, 20);
