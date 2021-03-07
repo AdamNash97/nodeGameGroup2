@@ -1,6 +1,31 @@
+//Allows user input and for users to exit at anytime from the prompt line using ctrl-c
+import promptSync from 'prompt-sync';
+const prompt = promptSync({sigint: true});
 import * as ind from './index.js';
 import * as inv from './inventory.js';
 import * as com from './combat.js';
+
+
+//START GAME
+export function gameStart(){
+    console.log('Welcome to Cannibal Retribution!')
+    var yes = /^y(?:es)?/i;
+    var no = /^no?/i;
+    const wantToPlay = prompt("Do you want to play? (y/n)");
+    if(yes.test(wantToPlay)){
+      console.log('Carriage Driver: "Hey you back there, whats your name? They never tell me anything..."');
+      const nameChoice = prompt('Enter name:');
+      com.player.name = nameChoice;
+      console.log('');
+      gameIntro();
+    } else if (no.test(wantToPlay)){
+      console.log("Okay, no worries!");
+      process.exit();
+    } else{
+      console.log("Invalid entry, sorry, please try again.");
+      gameStart();
+    }
+}
 
 // GAME INTRO
 export async function gameIntro() {
