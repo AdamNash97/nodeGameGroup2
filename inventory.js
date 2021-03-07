@@ -89,7 +89,7 @@ export function examineItem(obj) {
 };
 
 //Pouch to carry gold (currency in game)
-export var pouch = new Wallet ("leather pouch", 100, 3, 'DO NOT SELL');
+export var pouch = new Wallet ("leather pouch", 20, 3, 'DO NOT SELL');
 pouch.description = "The finest of cows sacrificed themselves for this pouch!";
 
 //Creating instances of the inventory objects in the gaming environment.
