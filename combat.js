@@ -1,7 +1,7 @@
 import promptSync from 'prompt-sync';
 import {locationChoice} from './index.js';
 import * as math from 'mathjs';
-import * as inv from './inventory.js'
+
 const prompt = promptSync({sigint: true});
 export class Player {
     constructor (name, health, maxHealth) {
@@ -209,3 +209,6 @@ zombie.description = "an ugly beast hungry for your brains.";
 shiaLaBeouf.description = "an actual cannibal!";
 
 export var monstersArray = [mrBlobby,naughtySanta,satanHimself,mrBlobby,regularPigeon,rabidSquirrel,zombie,shiaLaBeouf,zombie,rabidSquirrel];
+
+//Creating a new player instance for the user
+export var player = new Player('player', 20, 20);

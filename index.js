@@ -8,6 +8,7 @@ import * as gal from './gallows.js';
 import * as com from './combat.js';
 import * as sh from './shop.js';
 import * as te from './temple.js';
+import * as ta from './tavern.js';
 
 // LOCATION SELECTOR
 export function locationChoice (locationIndex){
@@ -19,7 +20,7 @@ export function locationChoice (locationIndex){
         sh.shop();
         break;
       case 2: //2 : Tavern
-        tavern();
+        ta.tavern();
         break;
       case 3: //3 : Casino
         casino();
@@ -118,35 +119,6 @@ function gallows() {
 
 };
 
-// TAVERN
-function tavern() {
-  console.log("")
-  console.log("Welcome to the tavern");
-  console.log("What do you want to do?");
-  console.log("1: get booze and replenish your health (price: 3 gold)");
-  console.log("0: Go back to village square");
-  const tavernPrompt = prompt("Pick a number: ");
-  if (tavernPrompt == 1){
-    console.log(`\n`);
-    inv.pouch.changeGold(-3)
-    console.log('You get some booze and a nice hot meal');
-    player.restoreHealth();
-    console.log('You have been restored to full health.')
-    console.log(`You have ${player.health} health.`);
-    locationChoice(0);
-  }
-  else if (tavernPrompt == 0){
-    locationChoice(0);
-  }
-  else {
-    console.log("Invalid input, sorry.");
-    tavern();
-  }
-}
-
-
-
-
 // Allows waiting between executing lines eg. building suspense in dialog
 export function sleep(ms) {
   return new Promise((resolve) => {
@@ -212,8 +184,8 @@ function forest() {
   if (forestPrompt == 0){
     locationChoice(0);
   } else if (forestPrompt == 1){
-    console.log(player)
-    com.initiateCombat(player, com.monstersArray, inv.playersInventory, inv.pouch);
+    console.log(com.player)
+    com.initiateCombat(com.player, com.monstersArray, inv.playersInventory, inv.pouch);
     //console.log(playersHealthBar);
   } else {
     console.log("Invalid input, sorry.");
@@ -222,8 +194,7 @@ function forest() {
 };
 
 //Start game
-function gameStart(){
-let player = new com.Player('player', 20, 20)
+export function gameStart(){
 console.log('Welcome to Cannibal Retribution!')
 var yes = /^y(?:es)?/i;
 var no = /^no?/i;
@@ -231,7 +202,7 @@ const wantToPlay = prompt("Do you want to play? (y/n)");
 if(yes.test(wantToPlay)){
   console.log('Carriage Driver: "Hey you back there, whats your name? They never tell me anything..."');
   const nameChoice = prompt('Enter name:');
-  player.name = nameChoice;
+  com.player.name = nameChoice;
   console.log('');
   gameIntro();
 } else if (no.test(wantToPlay)){
