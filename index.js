@@ -376,19 +376,28 @@ async function winnerWinnerChickenDinner() {
 }
 
 //Start game
+function gameStart(){
 let player = new com.Player('player', 20, 20)
-var orbsTouched = 0
 console.log('Welcome to Cannibal Retribution!')
-const wantToPlay = prompt("Do you want to play? (Y/N)");
-if (wantToPlay.toLowerCase() == "y") {
+var yes = /^y(?:es)?/i;
+var no = /^no?/i;
+const wantToPlay = prompt("Do you want to play? (y/n)");
+if(yes.test(wantToPlay)){
   console.log('Carriage Driver: "Hey you back there, whats your name? They never tell me anything..."');
   const nameChoice = prompt('Enter name:');
   player.name = nameChoice;
   console.log('');
   gameIntro();
+} else if (no.test(wantToPlay)){
+  console.log("Okay, no worries!");
+  process.exit();
+} else{
+  console.log("Invalid entry, sorry, please try again.");
+  gameStart();
 }
-else if(wantToPlay.toLowerCase() == "n") {
-   console.log("Okay, no worries!");
-} else {
-  console.log("Invalid entry, sorry");
-} 
+}
+
+//Initializing game
+var orbsTouched = 0;
+gameStart();
+

@@ -4,7 +4,7 @@ import {locationChoice} from './index.js';
 import promptSync from 'prompt-sync';
 const prompt = promptSync({sigint: true});
 
-//Allow user to make a bet in any of the games
+//Allow user to make a bet in any of the games in casino
 function makeBet(pouch){
     inv.countMoney(inv.pouch);
     if (pouch.gold == 0){
@@ -173,7 +173,9 @@ class Player {
 
   constructor() {
     this.cards = [];
+    //Final total before winner is determined
     this.hardTotal = 0;
+    //Running total before round is over
     this.softTotal = 0;
     this.bust = false;
   }
@@ -184,14 +186,14 @@ class Player {
 
     // update hardTotal, softTotal
     if (card.rank === "A") {
-      // Ace
+      // Ace has rank of either 1 or 11 depending on optimum hand for reaching as close to 21 as possible
       this.hardTotal += 1;
       this.softTotal += 11;
       if (this.softTotal > 21) {
         this.softTotal -= 10;
       }
     } else if (typeof card.rank === "string") {
-      // Face cards
+      // Face cards all have same value: 10
       this.hardTotal += 10;
       this.softTotal += 10;
     } else {
@@ -199,7 +201,7 @@ class Player {
       this.hardTotal += card.rank;
       this.softTotal += card.rank;
     }
-    // Check if bust
+    // Check if bust, hence over 21
     if (this.hardTotal > 21) {
       console.log(`${this.name} busts!
         `);
@@ -207,7 +209,7 @@ class Player {
       throw this;
     }
   }
-
+ //Sum total ranks of cards in hand
   getTotal() {
     if (this.hardTotal === 21 || this.softTotal === 21) {
       return 21;
@@ -235,7 +237,7 @@ class Dealer extends Player {
     }
     //Puts one card on show for user to see 
     showCards() {
-      var output = "XX"; // first card is face down
+      var output = "XX"; // first card is face down, XX represents rank and suit of card
       for (let i = 1; i < this.cards.length; i++) { 
         output += ` ${this.cards[i].show()}`; 
       }
@@ -252,14 +254,14 @@ class Dealer extends Player {
   }
 
 //Create a user to allow input
-class User extends Player { // "INHERITANCE"
+class User extends Player { 
 
   constructor(prompt) {
     super();
     this.name = "User";
     this.prompt = prompt;
   }
-
+  //Player can take more cards if they'd like
   hit() {
     return new Promise( (resolve, reject) => {
       const question = prompt("Hit? (y/n) > ");
@@ -276,7 +278,7 @@ class User extends Player { // "INHERITANCE"
       
     });
   }
-
+  //All current cards in hand, rank and number of each, are shown to player
   showCards() {
     var output = this.cards[0].show();
     for (let i = 1; i < this.cards.length; i++) { 
@@ -307,15 +309,15 @@ function turnLoop(player) {
     `);
     return player.hit().then(function(hit) {
       if (!hit) {
-        // base case
+        // base case is when the user doesn't want to add any cards to hand
         console.log(`${player.name} stands.`);
         return;
       } else {
-        // recursive case
+        // recursive case allows cards to be continously added by player
         console.log(`${player.name} hits.`);
         player.addCard(deck.pop());
         console.log(`${player.name}'s cards: ${player.showCards()}`);
-        return Promise.resolve(player).then(turnLoop); // TAIL RECURSION
+        return Promise.resolve(player).then(turnLoop); 
       }
     });
   }
@@ -361,7 +363,7 @@ function game(deck) {
 Let's play Blackjack!
     `);
 
-  // initialization
+  // initialization of players and dealings
 
   var players = [new User(prompt), new Dealer()];
   deal(players, deck);

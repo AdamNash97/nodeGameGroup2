@@ -3,6 +3,7 @@ import {locationChoice} from './index.js';
 import hangmanAscii from 'hangman-ascii';
 const prompt = promptSync({sigint: true});
 
+//HANGMAN ANIMATION
 
 export function initiateHanging(){
 
