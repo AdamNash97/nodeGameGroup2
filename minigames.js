@@ -6,21 +6,21 @@ const prompt = promptSync({sigint: true});
 
 //Allow user to make a bet in any of the games
 function makeBet(pouch){
-    inv.countMoney(pouch);
+    inv.countMoney(inv.pouch);
     if (pouch.gold == 0){
         console.log("You have no coins to bet, sorry you can't play! \n");
         locationChoice(3);
     } else {
         let wager = prompt('How much do you want to wager?')
         wager = Number(wager)
-        if(wager <= pouch.gold && wager > 0){
+        if(wager <= inv.pouch.gold && wager > 0){
             console.log("You've bet:" + wager + "\n")
-            pouch.changeGold(-wager)
+            inv.pouch.changeGold(-wager)
             return wager
         }
         else {
             console.log(`You must bet something, but not more than the gold in your pouch! \n`)
-            makeBet(pouch);
+            makeBet(inv.pouch);
         }
       }
 }
@@ -41,16 +41,10 @@ export function roulette(pouch) {
         console.log("Single number: JACKPOT! 35 times your bet!!!");
         console.log("Alright lets play!");
     } else {
+        console.log(`\n`);
         console.log("Alright, lets play!");
     }
-
-    //Bet and choice
-    // inv.countMoney(pouch);
-    // let bet = prompt('How much do you want to wager?')
-    // console.log("You've bet:" + bet)
-    // bet = Number(bet)
-    // pouch.changeGold(-bet)
-    let bet = makeBet(pouch);
+    let bet = makeBet(inv.pouch);
     let choice = prompt('What would you like to choose? (0-36 or ODD or EVEN): ')
     console.log("You chose: " + choice);
 
@@ -90,7 +84,7 @@ export function roulette(pouch) {
         console.log("Oh no! You lose..");
     }
     if (winner == true){
-        pouch.changeGold((bet*odds))
+        inv.pouch.changeGold((bet*odds))
     }
 };
 
@@ -116,9 +110,9 @@ export function blackjack(pouch){
       console.log("Alright, lets play! \n");
     } else {
       console.log("Please answer 'yes' or 'no.'");
-      blackjack(pouch);
+      blackjack(inv.pouch);
     }
-    let wager = makeBet(pouch);
+    let wager = makeBet(inv.pouch);
 
 
 //Number of card packs (52 cards each) to be used in game
@@ -350,7 +344,7 @@ function determineWinner(players) {
     } else {
       if(winner.name == "User"){
         var winnerReturn = 2;
-        pouch.changeGold((wager*winnerReturn))
+        inv.pouch.changeGold((wager*winnerReturn))
       }
       console.log(`
     ${winner.name} wins with a total of ${highScore}!
@@ -392,7 +386,7 @@ Let's play Blackjack!
       if (!yes.test(question2)) {
         locationChoice(3);
       } else {
-        blackjack(pouch); 
+        blackjack(inv.pouch); 
       }
     
   });

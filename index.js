@@ -4,8 +4,9 @@ const prompt = promptSync({sigint: true});
 import * as inv from './inventory.js';
 import * as game from './minigames.js';
 import * as gal from './gallows.js';
-import * as math from 'mathjs';
+//import * as math from 'mathjs';
 import * as com from './combat.js';
+import * as sh from './shop.js';
 
 
 
@@ -24,7 +25,7 @@ export function locationChoice (locationIndex){
         villageSquare();
         break;
       case 1:
-        shop();
+        sh.shop();
         break;
       case 2:
         tavern();
@@ -65,82 +66,7 @@ function villageSquare() {
   }
 }
 
-// SHOP
-function shop() {
-  console.log("")
-  console.log("Welcome to the shop");
-  console.log("1: Browse or Buy");
-  console.log("2: Sell");
-  console.log("0: Go back to village square");
-  let shopPrompt = prompt("Pick a number: ");
-  shopPrompt = Number(shopPrompt);
-  
-  if (shopPrompt == 0){
-    locationChoice(0);
-  }
-  
-  else if (shopPrompt == 1){
-    displayItems(shopInventory);
-    console.log("You have " + pouch.gold + " gold.")
-    const browseOrBuy = prompt("Enter 1 to buy an item or Enter 2 to examine an item: ");
-    if(browseOrBuy == 1){   
-      const itemBuying = prompt("What item do you want to buy? (Press 'x' to cancel): ");
-      if (itemBuying == 'x'){
-        shop();
-      }
-      else if (shopInventory.includes(shopInventory[itemBuying])) {
-        shopInventory[Number(itemBuying)];
-        if ((pouch.gold - shopInventory[itemBuying].value) < 0 ){
-        console.log("You are too poor!");
-        shop();
-        }
-        else {
-          pouch.changeGold(-shopInventory[itemBuying].value);
-          playersInventory.push(shopInventory[itemBuying]);
-          console.log("Your inventory now contains: ");
-          for (let i in playersInventory){
-          console.log(playersInventory[i].name);
-          };
-          shop();
-        }
-      } else{
-        console.log("Invalid input, sorry.\n");
-        shop();
-      };
-    }
-    else if(browseOrBuy == 2){
-      const selectItemToBrowse = prompt("Give the number of the item you want described: ");
-      if(shopInventory.includes(shopInventory[selectItemToBrowse])){
-        inv.examineItem(shopInventory[Number(selectItemToBrowse)])
-        shop();
-      } else{
-        console.log("Invalid input, sorry.\n");
-        shop();
-      };
-    } else{
-      console.log("Invalid input, sorry.\n");
-      shop();
-    }   
-  } else if (shopPrompt == 2){
-    displayItems(playersInventory);
-    const sellItem = prompt("what would you like to sell? (Press 'x' to cancel: )");
-    if (sellItem == 'x'){
-      shop();
-    }
-    else if (playersInventory.includes(playersInventory[sellItem])){
-      console.log(`you have sold your ${playersInventory[Number(sellItem)].name} for ${playersInventory[Number(sellItem)].value} gold`)
-      pouch.changeGold(playersInventory[Number(sellItem)].value);
-      playersInventory.splice((playersInventory[Number(sellItem)]),1);
-      shop();
-    } else {
-      console.log("Invalid input, sorry.\n");
-      shop();
-    }
-  } else {
-    console.log("Invalid input, sorry.\n");
-    shop();
-  }
-}
+
 
 
 // CASINO
@@ -157,10 +83,10 @@ function casino() {
     locationChoice(0);
   }
   else if (casinoPrompt == 1){
-    game.blackjack(pouch);
+    game.blackjack(inv.pouch);
   }
   else if (casinoPrompt == 2){
-    game.roulette(pouch);
+    game.roulette(inv.pouch);
     locationChoice(3);
   } else {
     console.log("Invalid input, sorry.");
@@ -178,11 +104,12 @@ function tavern() {
   console.log("")
   console.log("Welcome to the tavern");
   console.log("What do you want to do?");
-  console.log("1: get booze (3 gold)");
+  console.log("1: get booze and replenish your health (price: 3 gold)");
   console.log("0: Go back to village square");
   const tavernPrompt = prompt("Pick a number: ");
   if (tavernPrompt == 1){
-    pouch.changeGold(-3)
+    console.log(`\n`);
+    inv.pouch.changeGold(-3)
     console.log('You get some booze and a nice hot meal');
     player.restoreHealth();
     console.log('You have been restored to full health.')
@@ -264,10 +191,10 @@ async function gameIntro() {
   console.log('Carriage Driver: "HEY!! Don\'t forget your things!"');
   console.log('');
   await sleep(2000);
-  for (let i in playersInventory) {
-    console.log('You have: ' + playersInventory[i].name + ' in your inventory.')
+  for (let i in inv.playersInventory) {
+    console.log('You have: ' + inv.playersInventory[i].name + ' in your inventory.')
   };
-  console.log('The leather pouch contains ' + pouch.gold + ' gold.')
+  console.log('The leather pouch contains ' + inv.pouch.gold + ' gold.')
   await sleep(2000);
   console.log("");
   console.log('Carriage Driver: "Oh and one last thing. If it all gets too much you can press ctrl-c to quit at anytime!"')
@@ -277,49 +204,6 @@ async function gameIntro() {
   await sleep(4000);
   locationChoice(0);
 }
-
-//function to display items in shop
-function displayItems(Inventory) {
-  for (let i in Inventory) {
-    console.log(`${i} : ${Inventory[i].name}, Price: ${Inventory[i].value}`);
-  }
-}
-
-//Pouch
-let pouch = new inv.Wallet ("leather pouch", 20, 3, 'DO NOT SELL');
-pouch.description = "The finest of cows sacrificed themselves for this pouch!";
-
-//Creating instances of the inventory objects in the gaming environment.
-let woodenStick = new inv.Weapon ("wooden stick", 1, 3, 1);
-let portableTrebuchet = new inv.Weapon ("pocket-sized trebuchet", 10, 1, 10);
-let ironSword = new inv.Weapon ("iron sword", 5, 1, 7);
-let poisonousJellyBean = new inv.Weapon ("poisonous jelly bean", 7, 1, 9);
-let shimmeringBlade = new inv.Weapon ("shimmering blade", 13, 1, 20);
-let gun = new inv.Weapon("gun", 20, 1, 50);
-let healingPotion = new inv.Consumable ("health regeneration potion", 1, 5, 5);
-var existingItems = [woodenStick, pouch, portableTrebuchet, ironSword, poisonousJellyBean, shimmeringBlade, healingPotion, gun];
-
-woodenStick.description = "The trees were generous, this stick will mould you into a great warrior!";
-portableTrebuchet.description = "Take down the biggest of beasts with this little pocket-rocket!";
-ironSword.description = "Crafted by the best iron monger in the village!";
-poisonousJellyBean.description = "a lethal version of the children's favourite!";
-shimmeringBlade.description = "a blade so shiny it's blinding";
-healingPotion.description = "a potion to boost your health";
-gun.description = "how did this get here?"
-
-//Adding all current object instances to a running inventory.
-var playersInventory = [];
-var shopInventory = [];
-
-for (let i of existingItems) {
-  if (i.state === 3) {
-      playersInventory.push(i);
-  }else{
-    shopInventory.push(i);
-};
-}
-
-
 // FOREST
 function forest() {
   console.log("")
@@ -333,7 +217,7 @@ function forest() {
     locationChoice(0);
   } else if (forestPrompt == 1){
     console.log(player)
-    com.initiateCombat(player, com.monstersArray, playersInventory, pouch);
+    com.initiateCombat(player, com.monstersArray, inv.playersInventory, inv.pouch);
     //console.log(playersHealthBar);
   } else {
     console.log("Invalid input, sorry.");
@@ -383,7 +267,7 @@ async function touchOrb2(){
   await sleep(2000);
   let orbPrompt = prompt("Hand over gold? (Y/N)")
   if (orbPrompt.toUpperCase() == "Y"){
-    if (pouch.gold >= 100){
+    if (inv.pouch.gold >= 100){
       winnerWinnerChickenDinner()
     }else{
       console.log('Robed man: "Do you think I am a fool? Fool.')
@@ -392,7 +276,7 @@ async function touchOrb2(){
       console.log('Robed man: "Come back when you\'re less disgustingly poor or don\' come back at all!')
       console.log('');
       await sleep(2000);
-      console.log('That was a rude, you head back to the square...')
+      console.log('That was rude, you head back to the square...')
       locationChoice(0)
     };
 

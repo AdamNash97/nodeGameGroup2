@@ -20,7 +20,7 @@ export class Player {
 
     useItem(Consumable, playersInventory) {
         if (this.health == this.maxHealth){
-            console.log('you are already full health! You have lost your potion due to stupidity.')
+            console.log('You are already full health! You have lost your potion due to stupidity.')
         } else {
             if ((this.health + Consumable.healthRegen) >= this.maxHealth){
                 this.health = this.maxHealth
@@ -30,7 +30,7 @@ export class Player {
                 this.health = this.health + Consumable.healthRegen;
                 //playerHealthBar.increase(Consumable.healthRegen);
             }
-            console.log(`you have healed and now have ${this.health} health`)
+            console.log(`You have healed and now have ${this.health} health`)
             //console.log(playerHealthBar);
 
         }
@@ -57,6 +57,7 @@ export class Monster {
 
 export function initiateCombat(player, monstersArray, playersInventory, pouch){
     //randomly selecting a monster//
+    console.log(`\n`);
     let selectedMonster = monstersArray[math.randomInt(0,9)];
     console.log(`You come across ${selectedMonster.name}, ${selectedMonster.description}`);
     console.log('What would you like to do?');
@@ -71,12 +72,12 @@ export function combat(player, selectedMonster, playersInventory, pouch) {
     let combatOption = prompt('Enter the number of the action you would like: ');
     combatOption = Number(combatOption);
     if (combatOption == 1){
-        let currentInv = [];
+        //let currentInv = [];
         for (let i in playersInventory){
             if ("damage" in playersInventory[i]){
-                currentInv.push(1);
-                let currentIndex = currentInv.length; 
-                console.log(`${currentIndex} :  ${playersInventory[i].name}, deals between 1 and ${playersInventory[i].damage} damage`);
+                //currentInv.push(playersInventory[i]);
+                //let currentIndex = currentInv.length; 
+                console.log(`${i} :  ${playersInventory[i].name}, deals between 1 and ${playersInventory[i].damage} damage`);
             }
         }
         const weaponchoice = prompt('Enter which weapon you would like to attack with: ')
@@ -199,7 +200,7 @@ let rabidSquirrel = new Monster(7, 7, 10, 'Rabid Squirrel', 10)
 let zombie = new Monster(20, 20, 3, 'Zombie', 10)
 let shiaLaBeouf = new Monster(15, 15, 4, 'Shia La Beouf', 69)
 
-mrBlobby.description = "a spotted beast so rare that he tickle you down to the ground.";
+mrBlobby.description = "a spotted beast so rare that he'll tickle you down to the ground.";
 naughtySanta.description = "an angry santa who fires elves at a rapid rate.";
 satanHimself.description = "you don't wanna meet this boy in a dark alley.";
 regularPigeon.description = "a completely normal pigeon...?";
