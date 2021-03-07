@@ -10,13 +10,14 @@ import * as te from './temple.js';
 import * as ta from './tavern.js';
 import * as ca from './casino.js';
 import * as fo from './forest.js';
+import * as vs from './villageSquare.js';
 
 
 // LOCATION SELECTOR
 export function locationChoice (locationIndex){
     switch (Number(locationIndex)){ //Location Indexes
       case 0: //0 : Village Square
-        villageSquare();
+        vs.villageSquare();
         break;
       case 1: //1 : Shop
         sh.shop();
@@ -39,26 +40,6 @@ export function locationChoice (locationIndex){
     }
 }
 
-// VILLAGE SQUARE
-function villageSquare() {
-  console.log("")
-  console.log("Welcome to the village square! You see many interesting places around you...");
-  console.log("Where would you like to go?");
-  console.log("1 : Shop");
-  console.log("2 : Tavern");
-  console.log("3 : Casino");
-  console.log("4 : Gallows");
-  console.log("5 : Forest");
-  console.log("6 : Temple");
-  const villageSquarePrompt = prompt("Please pick a number (1-6) to travel to your destination: ");
-  var locArr = ["1","2","3","4","5","6"];
-  if(locArr.includes(villageSquarePrompt)){
-  locationChoice(villageSquarePrompt);
-  } else {
-    console.log("Invalid input, sorry.");
-    villageSquare();
-  }
-}
 
 
 // Allows waiting between executing lines eg. building suspense in dialog
