@@ -2,7 +2,6 @@
 import promptSync from 'prompt-sync';
 const prompt = promptSync({sigint: true});
 //Importing modules for each location:
-import * as inv from './inventory.js';
 import * as gal from './gallows.js';
 import * as com from './combat.js';
 import * as sh from './shop.js';
@@ -11,6 +10,7 @@ import * as ta from './tavern.js';
 import * as ca from './casino.js';
 import * as fo from './forest.js';
 import * as vs from './villageSquare.js';
+import * as gi from './gameIntro.js';
 
 
 // LOCATION SELECTOR
@@ -40,63 +40,6 @@ export function locationChoice (locationIndex){
     }
 }
 
-
-
-// Allows waiting between executing lines eg. building suspense in dialog
-export function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
-
-// GAME INTRO
-async function gameIntro() {
-  // console.log('You\'re in a daze, unsure of your surroundings... your head is ringing.');
-  // console.log('');
-  // await sleep(2000);
-  // console.log('Your leg hurts like hell...');
-  // console.log('');
-  // await sleep(2000);
-  // console.log('You look down and there is a BITE!');
-  // console.log('');
-  // await sleep(2000);
-  // console.log('Carriage Driver: "Oh yeah... don\'t worry about that... it\'ll heal in no time!"');
-  // console.log('');
-  // await sleep(2000);
-  // console.log('Carriage Driver: "Alright.. this is where they paid me to drop you off"');
-  // console.log('');
-  // await sleep(2000);
-  // console.log('Horrified, you look around but don\'t recognise this town.');
-  // console.log('');
-  // await sleep(2000);
-  // console.log('Carriage Driver: "Well, good luck out there ' + player.name + '."');
-  // console.log('');
-  // await sleep(2000);
-  // console.log('You wonder if anyone in town might be able to help you...');
-  // console.log('');
-  // await sleep(2000);
-  // console.log('You start stumbling towards the village square.');
-  // console.log('');
-  // await sleep(2000);
-  console.log('Carriage Driver: "HEY!! Don\'t forget your things!"');
-  console.log('');
-  await sleep(2000);
-  for (let i in inv.playersInventory) {
-    console.log('You have: ' + inv.playersInventory[i].name + ' in your inventory.')
-  };
-  console.log('The leather pouch contains ' + inv.pouch.gold + ' gold.')
-  await sleep(2000);
-  console.log("");
-  console.log('Carriage Driver: "Oh and one last thing. If it all gets too much you can press ctrl-c to quit at anytime!"')
-  await sleep(2000);
-  console.log("");
-  console.log('You\'re not sure what he\'s talking about but carry on into the town anyway...');
-  await sleep(4000);
-  locationChoice(0);
-}
-
-
 //Start game
 export function gameStart(){
 console.log('Welcome to Cannibal Retribution!')
@@ -108,7 +51,7 @@ if(yes.test(wantToPlay)){
   const nameChoice = prompt('Enter name:');
   com.player.name = nameChoice;
   console.log('');
-  gameIntro();
+  gi.gameIntro();
 } else if (no.test(wantToPlay)){
   console.log("Okay, no worries!");
   process.exit();
@@ -116,6 +59,13 @@ if(yes.test(wantToPlay)){
   console.log("Invalid entry, sorry, please try again.");
   gameStart();
 }
+}
+
+// Allows waiting between executing lines using async functions eg. building suspense in dialog
+export function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
 
 //Initializing game
