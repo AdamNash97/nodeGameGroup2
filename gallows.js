@@ -1,6 +1,6 @@
 import promptSync from 'prompt-sync';
 import {locationChoice} from './index.js';
-import hangman from 'hangman-ascii';
+import hangmanAscii from 'hangman-ascii';
 const prompt = promptSync({sigint: true});
 
 
@@ -9,9 +9,7 @@ export function initiateHanging(){
 console.log(`
 ----------------------------------------------
 Welcome to the gallows, cameras at the ready!'
-`);
-    
-var hangmanAscii = hangman;
+`);    
 
 const sleep = ms => new Promise(res => setTimeout(res, ms));
 
@@ -60,73 +58,13 @@ export function hangmanGame() {
   let failCount = 0;
   let success = false;
 
+  // List of possible words to be selected
   const words = ['Tavern','Shop','Casino','Forest','Temple','Gallows','Cannibal','Retribution','Shia','Hobbit','Dragon','Wizard','Lizard',
                 'Brother','Weapon','War','Warrior','Potion','Booze','Trebuchet','Gun','Jellybean','Pouch','Sword','Satan','Orb','Truth',
                 'Zombie','Pigeon','Squirrel']
 
-  const hangmanPics = [
-    ` 
-      +---+
-      |   |
-          |
-          |
-          |
-          |
-    =========`, 
-  
-    ` 
-      +---+
-      |   |
-      O   |
-          |
-          |
-          |
-    =========`, 
-  
-    ` 
-      +---+
-      |   |
-      O   |
-      |   |
-          |
-          |
-    =========`, 
-  
-    ` 
-      +---+
-      |   |
-      O   |
-     /|   |
-          |
-          |
-    =========`, 
-  
-    ` 
-      +---+
-      |   |
-      O   |
-     /|\\  |
-          |
-          |
-    =========`, 
-  
-    ` 
-      +---+
-      |   |
-      O   |
-     /|\\  |
-     /    |
-          |
-    =========`, 
-  
-    ` 
-      +---+
-      |   |
-      O   |
-     /|\\  |
-     / \\  |
-          |
-    =========`]
+  // Colours for hangmanASCII
+  const hangmanColours = ['green','cyan','magenta','yellow','gray','white','red']
 
   function init() {
     console.log('Executioner: "So you wanna try and save this criminal scum? Well, if you can win my game I\'ll let him go..."\n');
@@ -161,11 +99,11 @@ export function hangmanGame() {
     tick ? tick = false : failCount++;
     
     if (failCount === 6) {
-      console.log(hangmanPics[failCount]);
+      hangmanAscii.drawLevel(failCount, hangmanColours[failCount]);
       console.log('Game over, he\'s hanged');
       console.log('The word was', targetWord);
     } else {
-      console.log(hangmanPics[failCount]);
+      hangmanAscii.drawLevel(failCount, hangmanColours[failCount]);
       console.log(dArray.join(' '));
     }
     while (failCount < 6) {
