@@ -9,6 +9,8 @@ import * as sh from './shop.js';
 import * as te from './temple.js';
 import * as ta from './tavern.js';
 import * as ca from './casino.js';
+import * as fo from './forest.js';
+
 
 // LOCATION SELECTOR
 export function locationChoice (locationIndex){
@@ -29,7 +31,7 @@ export function locationChoice (locationIndex){
         gal.gallows();
         break;
       case 5: //5 : Forest
-        forest();
+        fo.forest();
         break;
       case 6: //6 : Temple 
         te.temple();
@@ -112,26 +114,7 @@ async function gameIntro() {
   await sleep(4000);
   locationChoice(0);
 }
-// FOREST
-function forest() {
-  console.log("")
-  console.log("Welcome to the forest");
-  console.log("What do you want to do?");
-  console.log("1: Fight a monster");
-  console.log("0: Go back to village square");
-  let forestPrompt = prompt("Pick a number:");
-  forestPrompt = Number(forestPrompt);
-  if (forestPrompt == 0){
-    locationChoice(0);
-  } else if (forestPrompt == 1){
-    console.log(com.player)
-    com.initiateCombat(com.player, com.monstersArray, inv.playersInventory, inv.pouch);
-    //console.log(playersHealthBar);
-  } else {
-    console.log("Invalid input, sorry.");
-    forest();
-  }
-};
+
 
 //Start game
 export function gameStart(){
