@@ -1,7 +1,44 @@
 import promptSync from 'prompt-sync';
 import {locationChoice} from './index.js';
 import hangmanAscii from 'hangman-ascii';
+import * as ind from './index.js';
 const prompt = promptSync({sigint: true});
+
+// GALLOWS
+
+export function gallows() {
+  console.log("")
+  console.log("Welcome to the gallows");
+  console.log("What do you wanna do?");
+  console.log("1: Watch the hanging");
+  console.log("2: Try and stop the hanging")
+  console.log("0: Go back to village square");
+  let gallowsPrompt = prompt("Pick a number: ");
+  gallowsPrompt = Number(gallowsPrompt);
+  if (gallowsPrompt == 0){
+    ind.locationChoice(0);
+  }
+  else if (gallowsPrompt == 1){
+    initiateHanging();
+  }
+  else if (gallowsPrompt == 2){
+    let hangmanSuccess = hangmanGame();
+    if (hangmanSuccess) {
+      console.log('Criminal: Oh wow, you saved me ' + player.name + '! I don\'t have much but I owe you everything!')
+      inv.pouch.changeGold(3)
+      ind.locationChoice(0)
+    }
+    else {
+      console.log('Executioner: "He got what he deserved... don\'t meddle next time."')
+      ind.locationChoice(0)
+    }
+
+  } else {
+    console.log("Invalid input, sorry.");
+    gallows();
+  }
+
+};
 
 //HANGMAN ANIMATION
 

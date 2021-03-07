@@ -26,7 +26,7 @@ export function locationChoice (locationIndex){
         ca.casino();
         break;
       case 4: //4 : Gallows
-        gallows();
+        gal.gallows();
         break;
       case 5: //5 : Forest
         forest();
@@ -58,41 +58,6 @@ function villageSquare() {
   }
 }
 
-// GALLOWS
-
-function gallows() {
-  console.log("")
-  console.log("Welcome to the gallows");
-  console.log("What do you wanna do?");
-  console.log("1: Watch the hanging");
-  console.log("2: Try and stop the hanging")
-  console.log("0: Go back to village square");
-  let gallowsPrompt = prompt("Pick a number: ");
-  gallowsPrompt = Number(gallowsPrompt);
-  if (gallowsPrompt == 0){
-    locationChoice(0);
-  }
-  else if (gallowsPrompt == 1){
-    gal.initiateHanging();
-  }
-  else if (gallowsPrompt == 2){
-    let hangmanSuccess = gal.hangmanGame();
-    if (hangmanSuccess) {
-      console.log('Criminal: Oh wow, you saved me ' + player.name + '! I don\'t have much but I owe you everything!')
-      inv.pouch.changeGold(3)
-      locationChoice(0)
-    }
-    else {
-      console.log('Executioner: "He got what he deserved... don\'t meddle next time."')
-      locationChoice(0)
-    }
-
-  } else {
-    console.log("Invalid input, sorry.");
-    casino();
-  }
-
-};
 
 // Allows waiting between executing lines eg. building suspense in dialog
 export function sleep(ms) {
