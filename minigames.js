@@ -6,21 +6,21 @@ const prompt = promptSync({sigint: true});
 
 //Allow user to make a bet in any of the games in casino
 function makeBet(pouch){
-    inv.countMoney(inv.pouch);
+    inv.countMoney(pouch);
     if (pouch.gold == 0){
         console.log("You have no coins to bet, sorry you can't play! \n");
         locationChoice(3);
     } else {
         let wager = prompt('How much do you want to wager?')
         wager = Number(wager)
-        if(wager <= inv.pouch.gold && wager > 0){
+        if(wager <= pouch.gold && wager > 0){
             console.log("You've bet:" + wager + "\n")
-            inv.pouch.changeGold(-wager)
+            pouch.changeGold(-wager)
             return wager
         }
         else {
             console.log(`You must bet something, but not more than the gold in your pouch! \n`)
-            makeBet(inv.pouch);
+            makeBet(pouch);
         }
       }
 }

@@ -83,9 +83,13 @@ export function combat(player, selectedMonster, playersInventory, pouch) {
         console.log("")
         if (playersInventory.includes(playersInventory[Number(weaponchoice)]) && "damage" in playersInventory[Number(weaponchoice)]){
             player.Attack(selectedMonster, playersInventory[Number(weaponchoice)]);
-            console.log(`${selectedMonster.name} attacks you back!`)
-            selectedMonster.Attack(player)
-            healthCheck(selectedMonster, player, playersInventory, pouch)
+            if (selectedMonster.health > 0) {
+                console.log(`${selectedMonster.name} attacks you back!`)
+                selectedMonster.Attack(player)
+                healthCheck(selectedMonster, player, playersInventory, pouch)
+            } else {
+                healthCheck(selectedMonster, player, playersInventory, pouch)
+            }
         }
         else {
             console.log('invalid input')
@@ -128,6 +132,7 @@ if (selectedMonster.health <= 0){
     console.log(`Congratulations, you have defeated ${selectedMonster.name}!`);
     console.log(`You gained ${selectedMonster.value} gold!`);
     pouch.changeGold(selectedMonster.value);
+    console.log(`you have ${player.health} health`)
     selectedMonster.health = selectedMonster.maxHealth
     locationChoice(0);
 }

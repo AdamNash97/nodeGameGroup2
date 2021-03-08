@@ -89,7 +89,7 @@ export function examineItem(obj) {
 };
 
 //Pouch to carry gold (currency in game)
-export var pouch = new Wallet ("leather pouch", 20, 3, 'DO NOT SELL');
+export var pouch = new Wallet ("leather pouch", 200, 3, 'DO NOT SELL');
 pouch.description = "The finest of cows sacrificed themselves for this pouch!";
 
 //Creating instances of the inventory objects in the gaming environment.
@@ -100,7 +100,8 @@ let poisonousJellyBean = new Weapon ("poisonous jelly bean", 7, 1, 9);
 let shimmeringBlade = new Weapon ("shimmering blade", 13, 1, 20);
 let gun = new Weapon("gun", 20, 1, 50);
 let healingPotion = new Consumable ("health regeneration potion", 1, 5, 5);
-var existingItems = [woodenStick, pouch, portableTrebuchet, ironSword, poisonousJellyBean, shimmeringBlade, healingPotion, gun];
+let cometTail = new Weapon ("Tail of a comet", 666, 1, 200);
+var existingItems = [woodenStick, pouch, portableTrebuchet, ironSword, poisonousJellyBean, shimmeringBlade, healingPotion, gun, cometTail];
 
 woodenStick.description = "The trees were generous, this stick will mould you into a great warrior!";
 portableTrebuchet.description = "Take down the biggest of beasts with this little pocket-rocket!";
@@ -109,6 +110,7 @@ poisonousJellyBean.description = "a lethal version of the children's favourite!"
 shimmeringBlade.description = "a blade so shiny it's blinding";
 healingPotion.description = "a potion to boost your health";
 gun.description = "how did this get here?"
+cometTail.description = "The sword used by the archangel Michael"
 
 //Adding all current object instances to a running inventory.
 export var playersInventory = [];
