@@ -98,7 +98,7 @@ export function hangmanGame() {
   // List of possible words to be selected
   const words = ['Tavern','Shop','Casino','Forest','Temple','Gallows','Cannibal','Retribution','Shia','Hobbit','Dragon','Wizard','Lizard',
                 'Brother','Weapon','War','Warrior','Potion','Booze','Trebuchet','Gun','Jellybean','Pouch','Sword','Satan','Orb','Truth',
-                'Zombie','Pigeon','Squirrel']
+                'Zombie','Pigeon','Squirrel','Bamboozle']
 
   // Colours for hangmanASCII
   const hangmanColours = ['green','cyan','magenta','yellow','gray','white','red']
