@@ -75,7 +75,7 @@ export function shop() {
         console.log(`\n`);
         console.log(`You have sold your ${inv.playersInventory[Number(sellItem)].name} for ${inv.playersInventory[Number(sellItem)].value} gold.`)
         inv.pouch.changeGold(inv.playersInventory[Number(sellItem)].value);
-        inv.playersInventory.splice((inv.playersInventory[Number(sellItem)]),1);
+        inv.playersInventory.splice(Number(sellItem),1);
         shop();
       } else {
         console.log("Invalid input, sorry.\n");
