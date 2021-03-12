@@ -16,7 +16,6 @@ export function forest() {
     if (forestPrompt == 0){
       ind.locationChoice(0);
     } else if (forestPrompt == 1){
-      console.log(com.player)
       com.initiateCombat(com.player, com.monstersArray, inv.playersInventory, inv.pouch);
     } else {
       console.log("Invalid input, sorry.");

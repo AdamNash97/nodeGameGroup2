@@ -9,7 +9,7 @@ export class Player {
         this.health = health;
         this.name = name;
         this.maxHealth = maxHealth;
-    }
+    } 
     Attack(enemy, Weapon) {
         let damage = math.randomInt(1, Weapon.damage);
         enemy.health = enemy.health - damage;
@@ -74,58 +74,21 @@ export function combat(player, selectedMonster, playersInventory, pouch) {
     let combatOption = prompt('Enter the number of the action you would like: ');
     combatOption = Number(combatOption);
     if (combatOption == 1){
-        for (let i in playersInventory){
-            if ("damage" in playersInventory[i]){
-                console.log(`${i} :  ${playersInventory[i].name}, deals between 1 and ${playersInventory[i].damage} damage`);
-            }
-        }
-        const weaponchoice = prompt('Enter which weapon you would like to attack with: ')
-        console.log("")
-        if (playersInventory.includes(playersInventory[Number(weaponchoice)]) && "damage" in playersInventory[Number(weaponchoice)]){
-            player.Attack(selectedMonster, playersInventory[Number(weaponchoice)]);
-            if (selectedMonster.health > 0) {
-                console.log(`${selectedMonster.name} attacks you back!`)
-                selectedMonster.Attack(player)
-                healthCheck(selectedMonster, player, playersInventory, pouch)
-            } else {
-                healthCheck(selectedMonster, player, playersInventory, pouch)
-            }
-        }
-        else {
-            console.log('invalid input')
-            combat(player, selectedMonster, playersInventory, pouch);
-        }
+        attackOption(player, selectedMonster, playersInventory, pouch);
     }
     else if (combatOption == 2){
-            let potionCheck = 0;
-            for (let i in playersInventory){
-                if (playersInventory[i].name == "health regeneration potion"){
-                    console.log(playersInventory[i]);
-                    player.useItem(playersInventory[i], playersInventory);
-                    potionCheck = 1;
-                }
-            }
-            if (potionCheck == 0) {
-                console.log('you don\'t have any potions!');
-            }    
-        combat(player, selectedMonster, playersInventory, pouch);
+        usePotion(player, selectedMonster, playersInventory, pouch);
     }
-
     else if (combatOption == 3){
-        let fleeProb = math.random()
-             if (fleeProb < 0.2){
-                 console.log('You couldn\'t get away!')
-                 selectedMonster.Attack(player);
-                 healthCheck(selectedMonster, player, playersInventory, pouch);
-             } else{
-                 console.log('Successfully fled!')
-                locationChoice(0);
-                }    
+        fleeOption(player, selectedMonster, playersInventory, pouch);
     } else{
     console.log('Invalid input, sorry.');
     combat(player, selectedMonster, playersInventory, pouch)
     }
 }
+
+
+//Function to check if Player or Monster is dead after each round of combat
 export function healthCheck(selectedMonster, player, playersInventory, pouch){
 if (selectedMonster.health <= 0){
     console.log("")
@@ -172,3 +135,66 @@ export var monstersArray = [mrBlobby,naughtySanta,satanHimself,mrBlobby,regularP
 
 //Creating a new player instance for the user that will be used globally across all modules
 export var player = new Player('player', 20, 20);
+
+//Attack option for combat
+export function attackOption(player, selectedMonster, playersInventory, pouch) {
+    for (let i in playersInventory){
+        if ("damage" in playersInventory[i]){
+            console.log(`${i} :  ${playersInventory[i].name}, deals between 1 and ${playersInventory[i].damage} damage`);
+        }
+    }
+    const weaponchoice = prompt('Enter which weapon you would like to attack with: ')
+    console.log("")
+    if (playersInventory.includes(playersInventory[Number(weaponchoice)]) && "damage" in playersInventory[Number(weaponchoice)]){
+        player.Attack(selectedMonster, playersInventory[Number(weaponchoice)]);
+        if (selectedMonster.health > 0) {
+            console.log(`${selectedMonster.name} attacks you back!`)
+            selectedMonster.Attack(player)
+            healthCheck(selectedMonster, player, playersInventory, pouch)
+        } else {
+            healthCheck(selectedMonster, player, playersInventory, pouch)
+        }
+    }
+    else {
+        console.log('invalid input')
+        combat(player, selectedMonster, playersInventory, pouch);
+    }
+}
+
+//Use potion option for combat
+export function usePotion(player, selectedMonster, playersInventory, pouch) {
+    for (let i in playersInventory){
+        if ("damage" in playersInventory[i]){
+            console.log(`${i} :  ${playersInventory[i].name}, deals between 1 and ${playersInventory[i].damage} damage`);
+        }
+    }
+    const weaponchoice = prompt('Enter which weapon you would like to attack with: ')
+    console.log("")
+    if (playersInventory.includes(playersInventory[Number(weaponchoice)]) && "damage" in playersInventory[Number(weaponchoice)]){
+        player.Attack(selectedMonster, playersInventory[Number(weaponchoice)]);
+        if (selectedMonster.health > 0) {
+            console.log(`${selectedMonster.name} attacks you back!`)
+            selectedMonster.Attack(player)
+            healthCheck(selectedMonster, player, playersInventory, pouch)
+        } else {
+            healthCheck(selectedMonster, player, playersInventory, pouch)
+        }
+    }
+    else {
+        console.log('invalid input')
+        combat(player, selectedMonster, playersInventory, pouch);
+    }
+}
+
+//Flee option for combat
+export function fleeOption(player, selectedMonster, playersInventory, pouch) {
+    let fleeProb = math.random()
+             if (fleeProb < 0.2){
+                 console.log('You couldn\'t get away!')
+                 selectedMonster.Attack(player);
+                 healthCheck(selectedMonster, player, playersInventory, pouch);
+             } else{
+                    console.log('Successfully fled!')
+                    locationChoice(0);
+                }    
+}
