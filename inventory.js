@@ -110,7 +110,7 @@ poisonousJellyBean.description = "a lethal version of the children's favourite!"
 shimmeringBlade.description = "a blade so shiny it's blinding";
 healingPotion.description = "a potion to boost your health";
 gun.description = "how did this get here?"
-cometTail.description = "The sword used by the archangel Michael"
+cometTail.description = "The sword used by the archangel 'Michele'"
 
 //Adding all current object instances to a running inventory.
 export var playersInventory = [];
