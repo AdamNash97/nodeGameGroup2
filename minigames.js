@@ -168,7 +168,7 @@ function buildDeck(numPacks) {
   }
 
 //Create a generic player with the ability to build a hand of cards
-class BlackjackPlayer {
+class Player {
 
   constructor() {
     this.cards = [];
@@ -221,7 +221,7 @@ class BlackjackPlayer {
 }
 
 //Create a dealer and automate the hitting and showing of cards
-class Dealer extends BlackjackPlayer {
+class Dealer extends Player {
     constructor() {
       super();
       this.name = "Dealer";
@@ -253,14 +253,14 @@ class Dealer extends BlackjackPlayer {
   }
 
 //Create a user to allow input
-class User extends BlackjackPlayer { 
+class User extends Player { 
 
   constructor(prompt) {
     super();
     this.name = "User";
     this.prompt = prompt;
   }
-  //BlackjackPlayer can take more cards if they'd like
+  //Player can take more cards if they'd like
   hit() {
     return new Promise( (resolve, reject) => {
       const question = prompt("Hit? (y/n) > ");
